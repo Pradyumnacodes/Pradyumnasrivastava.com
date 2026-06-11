@@ -1,0 +1,306 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-deep-ink: var(--deep-ink);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand-green: var(--brand-green);
+  --color-surface-2: var(--surface-2);
+
+  --font-serif: "Newsreader", ui-serif, Georgia, serif;
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+
+:root {
+  --radius: 1rem;
+
+  /* Light mode (Softer, stone/paper aesthetic) */
+  --paper: oklch(0.95 0.01 85);
+  --surface: oklch(0.92 0.012 85);
+  --surface-2: oklch(0.88 0.015 85);
+  --ink: oklch(0.22 0 0);
+  --deep-ink: oklch(0.12 0 0);
+  --brand-green: oklch(0.55 0.16 152);
+  --brand-green-soft: oklch(0.55 0.16 152 / 0.16);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--surface);
+  --secondary-foreground: var(--deep-ink);
+  --muted: var(--surface);
+  --muted-foreground: oklch(0.32 0 0);
+  --accent: var(--ink);
+  --accent-foreground: var(--paper);
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: var(--paper);
+  --border: oklch(0 0 0 / 0.1);
+  --input: oklch(0 0 0 / 0.12);
+  --ring: var(--ink);
+}
+
+.dark {
+  /* Drake palette — dark canvas, green accent */
+  --paper: oklch(0.16 0.005 270);
+  --surface: oklch(0.21 0.008 270);
+  --surface-2: oklch(0.255 0.01 270);
+  --ink: oklch(0.95 0.005 85);
+  --deep-ink: oklch(0.98 0 0);
+  --brand-green: oklch(0.74 0.17 152);
+  --brand-green-soft: oklch(0.74 0.17 152 / 0.18);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--surface);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface);
+  --muted-foreground: oklch(0.82 0.01 85);
+  --accent: var(--ink);
+  --accent-foreground: var(--paper);
+  --destructive: oklch(0.6 0.22 27);
+  --destructive-foreground: var(--paper);
+  --border: oklch(1 0 0 / 0.08);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: var(--ink);
+}
+
+
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  ::selection {
+    background-color: oklch(0.18 0 0 / 0.12);
+    color: var(--color-deep-ink);
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility font-serif {
+  font-family: var(--font-serif);
+  font-feature-settings: "ss01", "ss02";
+}
+
+@utility font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Aurora background */
+@keyframes aurora-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate(-10%, -10%) scale(1.1);
+  }
+  33% {
+    transform: translate(5%, 5%) scale(1.15);
+  }
+  66% {
+    transform: translate(-5%, 10%) scale(1.05);
+  }
+  100% {
+    transform: translate(-10%, -10%) scale(1.1);
+  }
+}
+
+@keyframes aurora-drift-slow {
+  0% {
+    transform: translate(0%, 0%) scale(1.2);
+  }
+  50% {
+    transform: translate(8%, -6%) scale(1.25);
+  }
+  100% {
+    transform: translate(0%, 0%) scale(1.2);
+  }
+}
+
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 oklch(0.7 0.18 145 / 0.5);
+  }
+  50% {
+    opacity: 0.85;
+    box-shadow: 0 0 12px 4px oklch(0.7 0.18 145 / 0);
+  }
+}
+
+@keyframes aurora-btn-shift {
+  0%   { transform: translate(-25%, -25%) rotate(0deg); }
+  50%  { transform: translate(15%, 10%) rotate(180deg); }
+  100% { transform: translate(-25%, -25%) rotate(360deg); }
+}
+
+.aurora-btn { isolation: isolate; }
+.aurora-btn__layer {
+  position: absolute;
+  inset: -60%;
+  z-index: 0;
+  background:
+    radial-gradient(35% 45% at 30% 30%, oklch(0.7 0.18 260 / 0.9), transparent 70%),
+    radial-gradient(40% 40% at 70% 60%, oklch(0.72 0.2 160 / 0.85), transparent 70%),
+    radial-gradient(35% 45% at 50% 80%, oklch(0.7 0.2 40 / 0.85), transparent 70%);
+  filter: blur(14px);
+  mix-blend-mode: screen;
+  animation: aurora-btn-shift 8s linear infinite;
+  pointer-events: none;
+}
+
+/* Halo pulsing rings */
+@keyframes halo-pulse {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  70%  { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.halo-btn { position: relative; isolation: isolate; }
+.halo-btn__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: transparent;
+  box-shadow: 0 0 0 2px currentColor;
+  opacity: 0;
+  pointer-events: none;
+  animation: halo-pulse 2.4s ease-out infinite;
+}
+.halo-btn__ring:nth-child(2) { animation-delay: 0.8s; }
+.halo-btn__ring:nth-child(3) { animation-delay: 1.6s; }
+[data-a11y-reduced-motion="true"] .halo-btn__ring,
+[data-a11y-pause-animations="true"] .halo-btn__ring { animation: none !important; display: none; }
+
+
+/* Editorial pencil cursor — sitewide */
+html, body {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 32 32' fill='none'><path d='M10 22L22 10M22 10H14M22 10V18' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M10 22L22 10M22 10H14M22 10V18' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") 4 4, auto;
+}
+a, button, [role="button"], label, summary, .cursor-pointer {
+  cursor: pointer;
+}
+input, textarea, select { cursor: text; }
+
+
+/* ===== Drake template helpers ===== */
+
+/* Plexus / particle texture for the dark canvas */
+.drake-bg {
+  position: relative;
+  background-color: var(--paper);
+}
+.drake-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--foreground) 14%, transparent) 1px, transparent 0);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse at 70% 30%, black 0%, transparent 70%);
+  opacity: 0.5;
+}
+.drake-bg > * { position: relative; z-index: 1; }
+
+/* Pill section eyebrow */
+.drake-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface) 80%, transparent);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+
+/* Animated rotating circle text sticker */
+@keyframes drake-spin {
+  to { transform: rotate(360deg); }
+}
+.drake-spin { animation: drake-spin 18s linear infinite; }
+[data-a11y-reduced-motion="true"] .drake-spin,
+[data-a11y-pause-animations="true"] .drake-spin { animation: none; }
+
+/* Scroll indicator dot */
+@keyframes drake-scroll {
+  0% { transform: translateY(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(18px); opacity: 0; }
+}
+.drake-scroll-dot { animation: drake-scroll 1.8s ease-in-out infinite; }
