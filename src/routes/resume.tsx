@@ -17,10 +17,14 @@ function ResumePage() {
           Back
         </button>
         <button 
-          onClick={() => window.print()}
+          onClick={() => {
+            // Give a slight delay to ensure UI states settle before printing
+            setTimeout(() => window.print(), 100);
+          }}
           className="px-5 py-2 bg-black text-white text-sm font-medium rounded-full hover:bg-black/90 transition-colors shadow-lg"
+          title="Generates an ATS-friendly, plain-text parseable PDF"
         >
-          Print to PDF
+          Save as PDF
         </button>
       </div>
 
@@ -32,7 +36,7 @@ function ResumePage() {
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-[13px] font-mono tracking-wide text-black/80">
             <a href={`mailto:${EMAIL}`} className="hover:underline">{EMAIL}</a>
             <a href={LINKEDIN} target="_blank" rel="noreferrer" className="hover:underline">LinkedIn</a>
-            <a href="https://www.pradyumnasrivastava.com" target="_blank" rel="noreferrer" className="hover:underline">www.pradyumnasrivastava.com</a>
+            <a href="https://pradyumnasrivastava.com" target="_blank" rel="noreferrer" className="hover:underline">pradyumnasrivastava.com</a>
           </div>
         </header>
 
