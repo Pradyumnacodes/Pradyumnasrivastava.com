@@ -494,10 +494,10 @@ export function SlideDeck({ study, payload }: Props) {
       </nav>
 
       {/* Main Stack */}
-      <main className="pt-32 md:pt-40 px-4 md:px-8 max-w-[1024px] mx-auto flex flex-col gap-10 md:gap-16">
+      <main className="pt-24 md:pt-28 px-4 md:px-8 max-w-[1024px] mx-auto flex flex-col gap-10 md:gap-16">
         
         {/* Slide 1: Hero Card */}
-        <section className="w-full bg-[#FDFBF7] dark:bg-[#141414] rounded-[24px] md:rounded-[32px] ring-1 ring-border/50 shadow-sm overflow-hidden relative opacity-0 translate-y-12 animate-in fade-in slide-in-from-bottom-12 duration-1000 fill-mode-forwards">
+        <section className="w-full bg-[#FDFBF7] dark:bg-[#141414] rounded-[24px] md:rounded-[32px] ring-1 ring-border/50 shadow-sm overflow-hidden relative opacity-0 translate-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-forwards">
           <div className="w-full h-2" style={{ backgroundColor: study.accent }} />
           <div className="px-6 py-20 md:px-16 md:py-24 text-center">
             <div className="flex justify-center items-center gap-3 mb-8">
