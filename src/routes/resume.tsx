@@ -17,7 +17,7 @@ function ResumePage() {
           Back
         </button>
         <a 
-          href="/pradyumna_srivastava_resume.pdf"
+          href="/pradyumna_srivastava_resume.pdf?v=2"
           download="Pradyumna_Srivastava_Resume.pdf"
           className="px-5 py-2 bg-black text-white text-sm font-medium rounded-full hover:bg-black/90 transition-colors shadow-lg"
         >
