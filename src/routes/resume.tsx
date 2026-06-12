@@ -16,16 +16,13 @@ function ResumePage() {
         >
           Back
         </button>
-        <button 
-          onClick={() => {
-            // Give a slight delay to ensure UI states settle before printing
-            setTimeout(() => window.print(), 100);
-          }}
+        <a 
+          href="/pradyumna_srivastava_resume.pdf"
+          download="Pradyumna_Srivastava_Resume.pdf"
           className="px-5 py-2 bg-black text-white text-sm font-medium rounded-full hover:bg-black/90 transition-colors shadow-lg"
-          title="Generates an ATS-friendly, plain-text parseable PDF"
         >
-          Save as PDF
-        </button>
+          Download PDF
+        </a>
       </div>
 
       <div className="max-w-[800px] mx-auto px-8 py-16 md:py-24 print:py-8 print:px-0">
