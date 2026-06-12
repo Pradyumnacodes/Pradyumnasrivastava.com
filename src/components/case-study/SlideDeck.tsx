@@ -61,13 +61,14 @@ const RenderBlock = React.memo(function RenderBlock({
           <Rich rich={block.rich} />
         </p>
       );
-    case "heading":
+    case "heading": {
       const Tag = `h${block.level + 2}` as keyof JSX.IntrinsicElements;
       return (
         <Tag className="font-sans font-semibold text-foreground mt-16 mb-6 text-[22px] md:text-[26px] tracking-tight max-w-[65ch] mx-auto w-full text-balance">
           <Rich rich={block.rich} />
         </Tag>
       );
+    }
     case "quote":
       return (
         <div className="max-w-[65ch] mx-auto w-full my-12">
