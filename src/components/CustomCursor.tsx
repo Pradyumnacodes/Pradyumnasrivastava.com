@@ -62,14 +62,13 @@ export function CustomCursor() {
       {/* Spotlight background mask */}
       <div
         ref={spotlightRef}
-        className={`fixed inset-0 pointer-events-none z-[-1] transition-opacity duration-1000 ${
+        className={`hidden md:block fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-1] transition-opacity duration-1000 ${
           isVisible && !isIdle ? 'opacity-[0.25]' : 'opacity-0'
         }`}
         style={{
           backgroundImage: "url('/da-vinci.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundAttachment: "fixed",
           maskImage: "radial-gradient(circle 0px at 0px 0px, transparent 0%, transparent 100%)",
           WebkitMaskImage: "radial-gradient(circle 0px at 0px 0px, transparent 0%, transparent 100%)",
         }}
