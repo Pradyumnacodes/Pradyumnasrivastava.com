@@ -526,6 +526,12 @@ export function SlideDeck({ study, payload }: Props) {
                 <dd className="text-[14px] font-medium text-foreground font-sans">{study.year}</dd>
               </div>
             </dl>
+            <div className="mt-16 flex flex-col items-center justify-center gap-3 animate-pulse opacity-60">
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-foreground">Scroll to read</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-bounce">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+              </svg>
+            </div>
           </div>
           {coverImage && (
             <div className="w-full bg-muted border-t border-border/40 relative z-10">
