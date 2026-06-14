@@ -74,18 +74,6 @@ export function CustomCursor() {
           // Smooth the mobile gyro jitter
           currentX += (pos.current.x - currentX) * 0.15;
           currentY += (pos.current.y - currentY) * 0.15;
-
-          // Tilt-to-scroll logic
-          const scrollThreshold = window.innerHeight * 0.15; // 15% margin
-          const maxScrollSpeed = 12;
-
-          if (currentY < scrollThreshold) {
-            const intensity = 1 - Math.max(0, currentY / scrollThreshold);
-            window.scrollBy({ top: -maxScrollSpeed * intensity, behavior: "instant" });
-          } else if (currentY > window.innerHeight - scrollThreshold) {
-            const intensity = Math.min(1, (currentY - (window.innerHeight - scrollThreshold)) / scrollThreshold);
-            window.scrollBy({ top: maxScrollSpeed * intensity, behavior: "instant" });
-          }
         } else {
           currentX = pos.current.x;
           currentY = pos.current.y;
