@@ -42,6 +42,12 @@ export function AccessibilityPanel() {
   const [open, setOpen] = useState(false);
   const { settings, update, reset } = useAccessibility();
 
+  useEffect(() => {
+    const handleOpen = () => setOpen(true);
+    window.addEventListener('openAccessibility', handleOpen);
+    return () => window.removeEventListener('openAccessibility', handleOpen);
+  }, []);
+
   return (
     <>
       {/* Skip to content link */}
@@ -52,14 +58,7 @@ export function AccessibilityPanel() {
         Skip to main content
       </a>
 
-      <button
-        type="button"
-        aria-label="Open accessibility settings"
-        onClick={() => setOpen(true)}
-        className="fixed bottom-8 left-8 z-[110] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xl ring-[4px] ring-background transition-transform hover:scale-105 hover:opacity-90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/50"
-      >
-        <Accessibility className="h-5 w-5" aria-hidden="true" />
-      </button>
+      {/* Removed Floating Accessibility Trigger */}
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="right" className="w-full overflow-y-auto sm:max-w-md">

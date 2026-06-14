@@ -73,6 +73,9 @@ export function CustomCursor() {
     if (gyroGranted) {
       window.addEventListener("deviceorientation", onDeviceOrientation);
     }
+    
+    const handleGyroRequest = () => requestGyro();
+    window.addEventListener('requestGyro', handleGyroRequest);
 
     let animationFrameId: number;
     let currentX = pos.current.x;
@@ -94,9 +97,9 @@ export function CustomCursor() {
           currentY = pos.current.y;
         }
 
-        const size = isMobile ? 120 : 350; 
-        spotlightRef.current.style.maskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 40%, transparent 100%)`;
-        spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 40%, transparent 100%)`;
+        const size = isMobile ? 80 : 200; 
+        spotlightRef.current.style.maskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.5) 30%, transparent 80%)`;
+        spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.5) 30%, transparent 80%)`;
       }
       
       // 2. Scroll-Velocity & Overscroll Physics (Mobile Only)
@@ -150,6 +153,7 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", onMouseLeave);
       document.removeEventListener("mouseenter", onMouseEnter);
       window.removeEventListener("deviceorientation", onDeviceOrientation);
+      window.removeEventListener('requestGyro', handleGyroRequest);
       if (idleTimeout.current) clearTimeout(idleTimeout.current);
       cancelAnimationFrame(animationFrameId);
     };
@@ -189,15 +193,6 @@ export function CustomCursor() {
             WebkitMaskImage: "radial-gradient(circle 800px at 50% 50%, black 100%, transparent 100%)",
           }}
         />
-      )}
-      
-      {isMobile && gyroGranted === null && (
-        <button
-          onClick={requestGyro}
-          className="fixed bottom-6 right-6 z-50 bg-foreground/10 hover:bg-foreground/20 backdrop-blur-md text-foreground px-4 py-2 rounded-full text-[11px] font-mono uppercase tracking-[0.1em] ring-1 ring-border shadow-lg transition-all animate-in fade-in slide-in-from-bottom-4 duration-700"
-        >
-          ✦ Enable 3D BG
-        </button>
       )}
     </>
   );
