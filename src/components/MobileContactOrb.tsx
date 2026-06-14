@@ -20,8 +20,6 @@ export function MobileContactOrb() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  };
-
   if (!isMobile) return null;
 
   return (
