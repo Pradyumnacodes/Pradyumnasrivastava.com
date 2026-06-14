@@ -1,27 +1,34 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Download, Mail, Copy, Check, MessageSquare } from "lucide-react";
+import { motion, AnimatePresence, useAnimation, useMotionValue } from "framer-motion";
+import { Download, Mail, Copy, Check, Sparkles } from "lucide-react";
 
 export function MobileContactOrb() {
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [constraints, setConstraints] = useState({ top: 0, left: 0, right: 0, bottom: 0 });
+  const [hasScrolled, setHasScrolled] = useState(false);
+  
+  const controls = useAnimation();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.matchMedia("(max-width: 768px)").matches);
-      setConstraints({
-        top: -window.innerHeight + 120,
-        left: -window.innerWidth + 80,
-        right: 0,
-        bottom: 0,
-      });
-    };
+    const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+    
+    const handleScroll = () => {
+      if (window.scrollY > 150 && !hasScrolled) {
+        setHasScrolled(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [hasScrolled]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText("pradyumna.s.edu@gmail.com");
@@ -29,26 +36,51 @@ export function MobileContactOrb() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleDragEnd = (event: any, info: any) => {
+    // True magnetic effect: snap aggressively to left or right edge
+    const screenWidth = window.innerWidth;
+    const isLeftHalf = info.point.x < screenWidth / 2;
+    
+    // Animate x to the nearest edge (0 is right, -screenWidth + 80 is left)
+    const targetX = isLeftHalf ? -screenWidth + 80 : 0;
+    
+    controls.start({
+      x: targetX,
+      transition: { type: "spring", stiffness: 400, damping: 25, mass: 0.8 }
+    });
+  };
+
   if (!isMobile) return null;
 
   return (
     <>
       <AnimatePresence>
-        {!isOpen && (
+        {!isOpen && hasScrolled && (
           <motion.div
-            className="fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full bg-background/50 dark:bg-foreground/10 backdrop-blur-xl ring-1 ring-border/50 shadow-[0_0_30px_rgba(0,0,0,0.2)] dark:shadow-[0_0_30px_rgba(255,255,255,0.1)] flex items-center justify-center cursor-grab active:cursor-grabbing"
+            className="fixed bottom-24 right-6 z-50 flex items-center justify-center cursor-grab active:cursor-grabbing group"
             drag
-            dragConstraints={constraints}
-            dragElastic={0.2}
+            dragConstraints={{ top: -window.innerHeight + 120, bottom: 0, left: -window.innerWidth + 80, right: 0 }}
+            dragElastic={0.1}
             dragMomentum={false}
-            whileTap={{ scale: 0.9 }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            onDragEnd={handleDragEnd}
+            animate={controls}
+            style={{ x, y, touchAction: "none" }}
+            initial={{ scale: 0, y: 150, rotate: -45 }}
+            animate={{ scale: 1, y: 0, rotate: 0 }}
             exit={{ scale: 0, opacity: 0 }}
+            transition={{ 
+              type: "spring", 
+              stiffness: 350, 
+              damping: 15, // Low damping for a bouncy "jump" effect
+              mass: 1 
+            }}
             onClick={() => setIsOpen(true)}
-            style={{ touchAction: "none" }}
           >
-            <MessageSquare className="w-6 h-6 text-foreground" />
+            {/* Premium Solid Design */}
+            <div className="w-16 h-16 rounded-full bg-foreground text-background shadow-[0_10px_40px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_rgba(255,255,255,0.2)] flex flex-col items-center justify-center ring-4 ring-background/50">
+              <Sparkles className="w-6 h-6 mb-0.5" />
+              <span className="text-[9px] font-bold tracking-widest uppercase">Hello</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
