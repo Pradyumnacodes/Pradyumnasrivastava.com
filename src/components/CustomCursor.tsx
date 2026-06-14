@@ -111,11 +111,10 @@ export function CustomCursor() {
         
         if (overscrollAmount > 0) {
           // Overscroll Easter Egg: Vivid reveal based on pull distance
-          targetOpacity = Math.min(0.5, 0.15 + (overscrollAmount / 150) * 0.35);
+          targetOpacity = Math.min(0.5, (overscrollAmount / 150) * 0.5);
         } else {
-          // Normal scroll: 0.15 when stopped, fading to 0 when scrolling fast
-          const velocityFactor = Math.max(0, 1 - (smoothedVelocity / 15));
-          targetOpacity = velocityFactor * 0.15;
+          // Normal scroll: completely hidden by default
+          targetOpacity = 0;
         }
 
         // Apply heavily damped physics to the opacity for a buttery smooth fade
