@@ -10,7 +10,7 @@ import {
 import { AccessibilityProvider } from "@/hooks/use-accessibility";
 import { AccessibilityPanel } from "@/components/AccessibilityPanel";
 import { CustomCursor } from "@/components/CustomCursor";
-import { MobileContactOrb } from "@/components/MobileContactOrb";
+import { MobileContactFooter } from "@/components/MobileContactFooter";
 
 import appCss from "../styles.css?url";
 
@@ -136,9 +136,9 @@ function RootComponent() {
           <CustomCursor />
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
+          <MobileContactFooter />
         </main>
         <AccessibilityPanel />
-        <MobileContactOrb />
       </AccessibilityProvider>
     </QueryClientProvider>
   );

@@ -2,17 +2,15 @@ import { useEffect, useRef, useState, useCallback } from "react";
 
 export function CustomCursor() {
   const spotlightRef = useRef<HTMLDivElement>(null);
+  const velocityLayerRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: -100, y: -100 });
+  
   const [isVisible, setIsVisible] = useState(false);
   const [isIdle, setIsIdle] = useState(false);
   const [gyroGranted, setGyroGranted] = useState<boolean | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  
-  const [isBreathing, setIsBreathing] = useState(false);
 
   const idleTimeout = useRef<NodeJS.Timeout | null>(null);
-  const breathTimeout = useRef<NodeJS.Timeout | null>(null);
-  const scrollIdleTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(max-width: 768px)").matches);
@@ -36,37 +34,6 @@ export function CustomCursor() {
       setIsVisible(true);
     }
   }, []);
-
-  useEffect(() => {
-    const triggerBreath = () => {
-      setIsBreathing(true);
-      if (breathTimeout.current) clearTimeout(breathTimeout.current);
-      breathTimeout.current = setTimeout(() => {
-        setIsBreathing(false);
-      }, 2000); // Breathe out after 2s
-    };
-
-    const handleScroll = () => {
-      if (!isMobile) return;
-      if (scrollIdleTimeout.current) clearTimeout(scrollIdleTimeout.current);
-      
-      // 3.2 seconds of no scrolling triggers the subtle breath
-      scrollIdleTimeout.current = setTimeout(() => {
-        triggerBreath();
-      }, 3200);
-    };
-
-    if (isMobile) {
-      window.addEventListener("scroll", handleScroll);
-      handleScroll();
-    }
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollIdleTimeout.current) clearTimeout(scrollIdleTimeout.current);
-      if (breathTimeout.current) clearTimeout(breathTimeout.current);
-    };
-  }, [isMobile]);
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -111,7 +78,13 @@ export function CustomCursor() {
     let currentX = pos.current.x;
     let currentY = pos.current.y;
 
+    // Scroll physics variables
+    let lastScrollY = window.scrollY;
+    let smoothedVelocity = 0;
+    let currentOpacity = 0;
+
     const loop = () => {
+      // 1. Torchlight Physics (Mouse / Gyro)
       if (spotlightRef.current) {
         if (isMobile) {
           currentX += (pos.current.x - currentX) * 0.1;
@@ -126,6 +99,41 @@ export function CustomCursor() {
         spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 40%, transparent 100%)`;
       }
       
+      // 2. Scroll-Velocity & Overscroll Physics (Mobile Only)
+      if (isMobile && velocityLayerRef.current) {
+        const currentScrollY = window.scrollY;
+        const maxScroll = Math.max(0, document.body.scrollHeight - window.innerHeight);
+        
+        // Calculate velocity
+        const velocity = Math.abs(currentScrollY - lastScrollY);
+        lastScrollY = currentScrollY;
+        smoothedVelocity += (velocity - smoothedVelocity) * 0.1; // Smooth out the velocity reading
+
+        // Calculate overscroll (pulling past top or bottom bounds)
+        let overscrollAmount = 0;
+        if (currentScrollY < 0) {
+          overscrollAmount = Math.abs(currentScrollY);
+        } else if (currentScrollY > maxScroll && maxScroll > 0) {
+          overscrollAmount = currentScrollY - maxScroll;
+        }
+
+        let targetOpacity = 0;
+        
+        if (overscrollAmount > 0) {
+          // Overscroll Easter Egg: Vivid reveal based on pull distance
+          targetOpacity = Math.min(0.5, 0.15 + (overscrollAmount / 150) * 0.35);
+        } else {
+          // Normal scroll: 0.15 when stopped, fading to 0 when scrolling fast
+          const velocityFactor = Math.max(0, 1 - (smoothedVelocity / 15));
+          targetOpacity = velocityFactor * 0.15;
+        }
+
+        // Apply heavily damped physics to the opacity for a buttery smooth fade
+        currentOpacity += (targetOpacity - currentOpacity) * 0.05;
+        velocityLayerRef.current.style.opacity = currentOpacity.toFixed(3);
+      }
+
+      // 3. Desktop precise dot
       if (!isMobile) {
         const exactDot = document.getElementById('exact-dot');
         if (exactDot) {
@@ -147,18 +155,17 @@ export function CustomCursor() {
     };
   }, [isVisible, isIdle, isMobile, gyroGranted]);
 
-  const getMobileOpacity = () => {
-    if (isBreathing) return 'opacity-[0.15]';
-    return 'opacity-[0.05]'; // Extremely subtle torchlight
+  const getOpacityClass = () => {
+    if (isVisible && !isIdle) return isMobile ? 'opacity-[0.05]' : 'opacity-[0.25]';
+    return 'opacity-0';
   };
 
   return (
     <>
+      {/* The main torchlight/spotlight */}
       <div
         ref={spotlightRef}
-        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-1] transition-opacity duration-[1500ms] ease-in-out ${
-          isVisible && !isIdle ? (isMobile ? getMobileOpacity() : 'opacity-[0.25]') : 'opacity-0'
-        }`}
+        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-[1500ms] ease-in-out ${getOpacityClass()}`}
         style={{
           backgroundImage: "url('/da-vinci.jpg')",
           backgroundSize: "cover",
@@ -167,6 +174,22 @@ export function CustomCursor() {
           WebkitMaskImage: "radial-gradient(circle 0px at 0px 0px, transparent 0%, transparent 100%)",
         }}
       />
+      
+      {/* Physics-driven Velocity & Overscroll Layer */}
+      {isMobile && (
+        <div
+          ref={velocityLayerRef}
+          className="fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-1]"
+          style={{
+            backgroundImage: "url('/da-vinci.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0, // Controlled purely by JS requestAnimationFrame for 60fps smoothness
+            maskImage: "radial-gradient(circle 800px at 50% 50%, black 100%, transparent 100%)",
+            WebkitMaskImage: "radial-gradient(circle 800px at 50% 50%, black 100%, transparent 100%)",
+          }}
+        />
+      )}
       
       {isMobile && gyroGranted === null && (
         <button
