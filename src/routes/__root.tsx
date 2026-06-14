@@ -10,6 +10,7 @@ import {
 import { AccessibilityProvider } from "@/hooks/use-accessibility";
 import { AccessibilityPanel } from "@/components/AccessibilityPanel";
 import { CustomCursor } from "@/components/CustomCursor";
+import { MobileContactOrb } from "@/components/MobileContactOrb";
 
 import appCss from "../styles.css?url";
 
@@ -137,6 +138,7 @@ function RootComponent() {
           <Outlet />
         </main>
         <AccessibilityPanel />
+        <MobileContactOrb />
       </AccessibilityProvider>
     </QueryClientProvider>
   );
