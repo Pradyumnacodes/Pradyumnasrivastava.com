@@ -139,15 +139,6 @@ function RootComponent() {
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
 
-          <footer className="w-full py-20 flex flex-col items-center justify-center border-t border-foreground/5 mt-auto bg-transparent">
-            <p className="text-foreground/30 text-[10px] uppercase tracking-[0.2em] mb-4">Pradyumna Srivastava</p>
-            <button
-              onClick={() => window.dispatchEvent(new Event("openAccessibility"))}
-              className="text-[10px] text-foreground/50 hover:text-foreground transition-colors tracking-widest uppercase font-mono bg-foreground/5 px-4 py-2 rounded-full"
-            >
-              Accessibility Settings
-            </button>
-          </footer>
         </main>
         <AccessibilityPanel />
         <MobileContactOrb />
