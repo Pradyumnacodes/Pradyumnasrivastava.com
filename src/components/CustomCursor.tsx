@@ -130,8 +130,8 @@ export function CustomCursor() {
   const getOpacityClass = () => {
     // If mobile, it is perfectly visible as an ambient effect
     // If desktop, it is visible while mouse is on screen
-    if (isMobile) return 'opacity-[0.15] dark:opacity-[0.08]';
-    if (!isMobile && isVisible) return 'opacity-[0.15] dark:opacity-[0.08]';
+    if (isMobile) return 'opacity-[0.4] dark:opacity-[0.25]';
+    if (!isMobile && isVisible) return 'opacity-[0.4] dark:opacity-[0.25]';
     return 'opacity-0';
   };
 
@@ -139,7 +139,7 @@ export function CustomCursor() {
     <>
       <div
         ref={spotlightRef}
-        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-overlay dark:mix-blend-screen dark:brightness-[0.3] dark:contrast-[1.1] grayscale-[0.8] blur-[3px] ${getOpacityClass()}`}
+        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-overlay dark:mix-blend-screen dark:brightness-[0.6] dark:contrast-[1.1] grayscale-[0.6] blur-[4px] ${getOpacityClass()}`}
         style={{
           backgroundImage: "url('/da-vinci.jpg')",
           backgroundSize: "cover",
