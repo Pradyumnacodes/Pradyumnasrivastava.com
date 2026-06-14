@@ -34,7 +34,7 @@ export function ImmersiveToggle() {
   if (!isMobile) return null;
 
   return (
-    <div className="fixed top-6 right-6 z-50">
+    <div className="fixed bottom-8 right-6 z-50">
       <button
         onClick={gyroStatus !== "granted" ? requestGyro : undefined}
         className={`flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md shadow-lg ring-1 transition-all active:scale-95 ${

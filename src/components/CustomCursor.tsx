@@ -5,11 +5,8 @@ export function CustomCursor() {
   const pos = useRef({ x: -100, y: -100 });
   
   const [isVisible, setIsVisible] = useState(false);
-  const [isIdle, setIsIdle] = useState(false);
   const [gyroGranted, setGyroGranted] = useState<boolean | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-
-  const idleTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(max-width: 768px)").matches);
@@ -19,23 +16,18 @@ export function CustomCursor() {
     const handleGyroGranted = () => {
       setGyroGranted(true);
       setIsVisible(true);
+      // Center it immediately when granted so it doesn't wait for movement
+      pos.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     };
     window.addEventListener('gyroGranted', handleGyroGranted);
     return () => window.removeEventListener('gyroGranted', handleGyroGranted);
   }, []);
 
   useEffect(() => {
-    const resetIdle = (delay: number) => {
-      if (!isVisible) setIsVisible(true);
-      if (isIdle) setIsIdle(false);
-      if (idleTimeout.current) clearTimeout(idleTimeout.current);
-      idleTimeout.current = setTimeout(() => setIsIdle(true), delay);
-    };
-
     const onMouseMove = (e: MouseEvent) => {
       if (isMobile) return;
+      if (!isVisible) setIsVisible(true);
       pos.current = { x: e.clientX, y: e.clientY };
-      resetIdle(1500);
     };
 
     const onDeviceOrientation = (e: DeviceOrientationEvent) => {
@@ -43,19 +35,24 @@ export function CustomCursor() {
       if (e.gamma === null || e.beta === null) return;
 
       // Clamp gamma to prevent flying off left/right
+      // Typical hand tilt is -30 to 30. We use 45 as max bounds.
       const gamma = Math.max(-45, Math.min(45, e.gamma));
-      // Clamp beta to prevent flying off top/bottom (assume 45 is neutral holding angle)
+      // Clamp beta to prevent flying off top/bottom. Normal reading angle is ~45.
       const beta = Math.max(0, Math.min(90, e.beta));
 
       const x = window.innerWidth / 2 + (gamma / 45) * (window.innerWidth / 2);
       const y = window.innerHeight / 2 + ((beta - 45) / 45) * (window.innerHeight / 2);
 
       pos.current = { x, y };
-      resetIdle(3000);
     };
     
-    const onMouseLeave = () => setIsVisible(false);
-    const onMouseEnter = () => setIsVisible(true);
+    // Only fade out if the mouse actively leaves the window (desktop)
+    const onMouseLeave = () => {
+      if (!isMobile) setIsVisible(false);
+    };
+    const onMouseEnter = () => {
+      if (!isMobile) setIsVisible(true);
+    };
 
     window.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseleave", onMouseLeave);
@@ -63,6 +60,8 @@ export function CustomCursor() {
     
     if (gyroGranted) {
       window.addEventListener("deviceorientation", onDeviceOrientation);
+      // Ensure it stays visible if gyro is granted
+      setIsVisible(true);
     }
 
     let animationFrameId: number;
@@ -72,8 +71,9 @@ export function CustomCursor() {
     const loop = () => {
       if (spotlightRef.current) {
         if (isMobile) {
-          currentX += (pos.current.x - currentX) * 0.1;
-          currentY += (pos.current.y - currentY) * 0.1;
+          // Smooth the mobile gyro jitter
+          currentX += (pos.current.x - currentX) * 0.15;
+          currentY += (pos.current.y - currentY) * 0.15;
         } else {
           currentX = pos.current.x;
           currentY = pos.current.y;
@@ -100,13 +100,15 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", onMouseLeave);
       document.removeEventListener("mouseenter", onMouseEnter);
       window.removeEventListener("deviceorientation", onDeviceOrientation);
-      if (idleTimeout.current) clearTimeout(idleTimeout.current);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isVisible, isIdle, isMobile, gyroGranted]);
+  }, [isVisible, isMobile, gyroGranted]);
 
   const getOpacityClass = () => {
-    if (isVisible && !isIdle) return 'opacity-100';
+    // If mobile and gyro granted, it is permanently 100% visible.
+    // If desktop, it is 100% visible while mouse is on screen.
+    if (isMobile && gyroGranted) return 'opacity-100';
+    if (!isMobile && isVisible) return 'opacity-100';
     return 'opacity-0';
   };
 
@@ -114,7 +116,7 @@ export function CustomCursor() {
     <>
       <div
         ref={spotlightRef}
-        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-[1500ms] ease-in-out ${getOpacityClass()}`}
+        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out ${getOpacityClass()}`}
         style={{
           backgroundImage: "url('/da-vinci.jpg')",
           backgroundSize: "cover",
