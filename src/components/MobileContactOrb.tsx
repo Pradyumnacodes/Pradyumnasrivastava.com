@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, Copy, Check, X, ArrowUpRight, Accessibility, View } from "lucide-react";
+import { Download, Copy, Check, X, ArrowUpRight } from "lucide-react";
 
 export function MobileContactOrb() {
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [gyroStatus, setGyroStatus] = useState<"idle" | "granted" | "denied">("idle");
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
@@ -21,30 +20,6 @@ export function MobileContactOrb() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const requestGyro = async () => {
-    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-      try {
-        const permissionState = await (DeviceOrientationEvent as any).requestPermission();
-        if (permissionState === 'granted') {
-          setGyroStatus("granted");
-          window.dispatchEvent(new Event('gyroGranted'));
-        } else {
-          setGyroStatus("denied");
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      setGyroStatus("granted");
-      window.dispatchEvent(new Event('gyroGranted'));
-    }
-  };
-
-  const openA11y = () => {
-    setIsOpen(false);
-    setTimeout(() => {
-      window.dispatchEvent(new Event("openAccessibility"));
-    }, 400); // Wait for modal to close
   };
 
   if (!isMobile) return null;
@@ -65,7 +40,7 @@ export function MobileContactOrb() {
               onClick={() => setIsOpen(true)}
               className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-background/70 dark:bg-foreground/5 backdrop-blur-2xl border border-foreground/10 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)] active:scale-95 transition-transform"
             >
-              <span className="text-sm font-medium tracking-wide">Contact & Settings</span>
+              <span className="text-sm font-medium tracking-wide">Say Hello</span>
             </button>
           </motion.div>
         )}
@@ -125,33 +100,6 @@ export function MobileContactOrb() {
                   <span className="font-medium text-lg">{copied ? "Email Copied!" : "Copy Email"}</span>
                   {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
                 </button>
-              </div>
-
-              {/* Toggles / Settings */}
-              <div className="flex flex-row justify-center gap-4 w-full mt-4">
-                <button
-                  onClick={openA11y}
-                  className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-foreground/5 hover:bg-foreground/10 active:scale-95 transition-all text-foreground/60 hover:text-foreground w-28 h-28 border border-foreground/5"
-                >
-                  <Accessibility className="w-6 h-6" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-center">A11y</span>
-                </button>
-
-                {gyroStatus !== "granted" && (
-                  <button
-                    onClick={requestGyro}
-                    className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-foreground/5 hover:bg-foreground/10 active:scale-95 transition-all text-foreground/60 hover:text-foreground w-28 h-28 border border-foreground/5"
-                  >
-                    <View className="w-6 h-6" />
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-center">Enable 3D</span>
-                  </button>
-                )}
-                {gyroStatus === "granted" && (
-                  <div className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-green-500/10 text-green-500 w-28 h-28 border border-green-500/20">
-                    <Check className="w-6 h-6" />
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-center">3D Active</span>
-                  </div>
-                )}
               </div>
             </motion.div>
           </motion.div>

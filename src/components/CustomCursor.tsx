@@ -6,7 +6,6 @@ export function CustomCursor() {
   
   const [isVisible, setIsVisible] = useState(false);
   const [isIdle, setIsIdle] = useState(false);
-  const [gyroGranted, setGyroGranted] = useState<boolean | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   const idleTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -16,40 +15,32 @@ export function CustomCursor() {
   }, []);
 
   useEffect(() => {
-    const handleGyroGranted = () => {
-      setGyroGranted(true);
-      setIsVisible(true);
+    // Shared timeout logic
+    const resetIdle = (delay: number) => {
+      if (!isVisible) setIsVisible(true);
+      if (isIdle) setIsIdle(false);
+      if (idleTimeout.current) clearTimeout(idleTimeout.current);
+      idleTimeout.current = setTimeout(() => setIsIdle(true), delay);
     };
-    window.addEventListener('gyroGranted', handleGyroGranted);
-    return () => window.removeEventListener('gyroGranted', handleGyroGranted);
-  }, []);
 
-  useEffect(() => {
+    // Desktop Mouse Tracking
     const onMouseMove = (e: MouseEvent) => {
       if (isMobile) return;
-      if (!isVisible) setIsVisible(true);
-      if (isIdle) setIsIdle(false);
-      
       pos.current = { x: e.clientX, y: e.clientY };
-
-      if (idleTimeout.current) clearTimeout(idleTimeout.current);
-      idleTimeout.current = setTimeout(() => setIsIdle(true), 1500);
+      resetIdle(1500);
     };
 
-    const onDeviceOrientation = (e: DeviceOrientationEvent) => {
-      if (!isMobile) return;
-      if (e.gamma === null || e.beta === null) return;
+    // Mobile Touch Tracking (Permission-Free)
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isMobile || e.touches.length === 0) return;
+      pos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      resetIdle(2500); // slightly longer idle for touch
+    };
 
-      if (!isVisible) setIsVisible(true);
-      if (isIdle) setIsIdle(false);
-
-      const x = window.innerWidth / 2 + (e.gamma / 45) * (window.innerWidth / 2);
-      const y = window.innerHeight / 2 + ((e.beta - 45) / 45) * (window.innerHeight / 2);
-
-      pos.current = { x, y };
-
-      if (idleTimeout.current) clearTimeout(idleTimeout.current);
-      idleTimeout.current = setTimeout(() => setIsIdle(true), 3000);
+    const onTouchStart = (e: TouchEvent) => {
+      if (!isMobile || e.touches.length === 0) return;
+      pos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      resetIdle(2500);
     };
     
     const onMouseLeave = () => setIsVisible(false);
@@ -59,28 +50,30 @@ export function CustomCursor() {
     document.addEventListener("mouseleave", onMouseLeave);
     document.addEventListener("mouseenter", onMouseEnter);
     
-    if (gyroGranted) {
-      window.addEventListener("deviceorientation", onDeviceOrientation);
-    }
+    // Passive true ensures touch tracking doesn't block scrolling performance
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
 
     let animationFrameId: number;
     let currentX = pos.current.x;
     let currentY = pos.current.y;
 
     const loop = () => {
-      // Torchlight Physics (Mouse / Gyro)
+      // Torchlight Physics
       if (spotlightRef.current) {
         if (isMobile) {
-          currentX += (pos.current.x - currentX) * 0.1;
-          currentY += (pos.current.y - currentY) * 0.1;
+          // Add a slight drag/smoothing to the touch tracking
+          currentX += (pos.current.x - currentX) * 0.15;
+          currentY += (pos.current.y - currentY) * 0.15;
         } else {
           currentX = pos.current.x;
           currentY = pos.current.y;
         }
 
-        const size = isMobile ? 80 : 200; 
-        spotlightRef.current.style.maskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.5) 30%, transparent 80%)`;
-        spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.5) 30%, transparent 80%)`;
+        // The Sweet Spot: Increased radius and brighter inner core
+        const size = isMobile ? 150 : 300; 
+        spotlightRef.current.style.maskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.7) 40%, transparent 80%)`;
+        spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.7) 40%, transparent 80%)`;
       }
       
       // Desktop precise dot
@@ -99,14 +92,16 @@ export function CustomCursor() {
       window.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseleave", onMouseLeave);
       document.removeEventListener("mouseenter", onMouseEnter);
-      window.removeEventListener("deviceorientation", onDeviceOrientation);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
       if (idleTimeout.current) clearTimeout(idleTimeout.current);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isVisible, isIdle, isMobile, gyroGranted]);
+  }, [isVisible, isIdle, isMobile]);
 
   const getOpacityClass = () => {
-    if (isVisible && !isIdle) return isMobile ? 'opacity-[0.05]' : 'opacity-[0.25]';
+    // Increased base opacity slightly so the sweet spot feels richer
+    if (isVisible && !isIdle) return isMobile ? 'opacity-[0.25]' : 'opacity-[0.3]';
     return 'opacity-0';
   };
 
