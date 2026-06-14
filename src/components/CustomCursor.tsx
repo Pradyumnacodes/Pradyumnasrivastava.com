@@ -100,9 +100,11 @@ export function CustomCursor() {
           currentY = pos.current.y;
         }
 
-        const size = isMobile ? 150 : 300; 
-        spotlightRef.current.style.maskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.7) 40%, transparent 80%)`;
-        spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.7) 40%, transparent 80%)`;
+        const size = isMobile ? 400 : 800;
+        const offset = size / 2;
+        spotlightRef.current.style.transform = `translate3d(${currentX - offset}px, ${currentY - offset}px, 0)`;
+        spotlightRef.current.style.width = `${size}px`;
+        spotlightRef.current.style.height = `${size}px`;
       }
       
       if (!isMobile) {
@@ -128,10 +130,9 @@ export function CustomCursor() {
   }, [isVisible, isMobile, gyroGranted]);
 
   const getOpacityClass = () => {
-    // If mobile, it is perfectly visible as an ambient effect
-    // If desktop, it is visible while mouse is on screen
-    if (isMobile) return 'opacity-[0.4] dark:opacity-[0.25]';
-    if (!isMobile && isVisible) return 'opacity-[0.4] dark:opacity-[0.25]';
+    // Premium glow: higher opacity on desktop, subtle on mobile
+    if (isMobile) return 'opacity-50 dark:opacity-40';
+    if (!isMobile && isVisible) return 'opacity-60 dark:opacity-40';
     return 'opacity-0';
   };
 
@@ -139,13 +140,10 @@ export function CustomCursor() {
     <>
       <div
         ref={spotlightRef}
-        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-overlay dark:mix-blend-screen dark:brightness-[0.6] dark:contrast-[1.1] grayscale-[0.6] blur-[4px] ${getOpacityClass()}`}
+        className={`fixed top-0 left-0 rounded-full pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-multiply dark:mix-blend-screen blur-[80px] sm:blur-[120px] ${getOpacityClass()}`}
         style={{
-          backgroundImage: "url('/da-vinci.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          maskImage: "radial-gradient(circle 0px at 0px 0px, transparent 0%, transparent 100%)",
-          WebkitMaskImage: "radial-gradient(circle 0px at 0px 0px, transparent 0%, transparent 100%)",
+          background: "radial-gradient(circle, var(--brand-green) 0%, transparent 70%)",
+          willChange: "transform",
         }}
       />
     </>

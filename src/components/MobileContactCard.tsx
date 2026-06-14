@@ -7,7 +7,7 @@ export function MobileContactCard() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 1024px)").matches || 'ontouchstart' in window);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
@@ -28,8 +28,9 @@ export function MobileContactCard() {
         whileInView={{ y: 0, opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="w-full bg-background/60 dark:bg-foreground/5 backdrop-blur-2xl border border-foreground/10 dark:border-white/10 rounded-[2rem] p-8 sm:p-10 flex flex-col items-center gap-10 shadow-2xl"
+        className="w-full relative overflow-hidden bg-background/60 dark:bg-surface/40 backdrop-blur-3xl border border-foreground/10 dark:border-white/10 rounded-[2rem] p-8 sm:p-10 flex flex-col items-center gap-10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] ring-1 ring-inset ring-white/20 dark:ring-white/5"
       >
+        <div className="absolute inset-0 bg-gradient-to-tr from-brand-green/10 via-transparent to-transparent opacity-50 pointer-events-none" />
         <div className="text-center flex flex-col items-center">
           <motion.div 
             initial={{ scale: 0 }}
@@ -48,29 +49,30 @@ export function MobileContactCard() {
           <a 
             href="/pradyumna_srivastava_resume.pdf" 
             download="Pradyumna_Srivastava_Resume.pdf"
-            className="group flex items-center justify-between w-full bg-foreground text-background px-6 py-5 rounded-2xl active:scale-[0.98] transition-all shadow-xl shadow-foreground/10"
+            className="group relative overflow-hidden flex items-center justify-between w-full bg-foreground text-background px-6 py-5 rounded-2xl active:scale-[0.98] transition-all duration-300 shadow-xl shadow-foreground/10 ring-1 ring-inset ring-foreground/10"
           >
-            <span className="font-medium text-lg">Download Resume</span>
-            <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+            <span className="font-medium text-lg relative z-10">Download Resume</span>
+            <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform relative z-10" />
           </a>
 
           <div className="grid grid-cols-2 gap-4 mt-2">
             <a 
               href="mailto:pradyumna.s.edu@gmail.com"
-              className="flex flex-col items-center justify-center gap-3 bg-foreground/5 py-5 rounded-2xl active:bg-foreground/10 transition-colors border border-foreground/5"
+              className="flex flex-col items-center justify-center gap-3 bg-surface hover:bg-foreground/5 py-5 rounded-2xl active:scale-[0.97] transition-all duration-300 border border-foreground/5 ring-1 ring-inset ring-white/10 shadow-sm"
             >
-              <ArrowUpRight className="w-6 h-6 text-foreground/70" />
+              <ArrowUpRight className="w-6 h-6 text-foreground/70 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium tracking-wide">Email Me</span>
             </a>
             
             <button 
               onClick={handleCopy}
-              className="flex flex-col items-center justify-center gap-3 bg-foreground/5 py-5 rounded-2xl active:bg-foreground/10 transition-colors border border-foreground/5"
+              className="group flex flex-col items-center justify-center gap-3 bg-surface hover:bg-foreground/5 py-5 rounded-2xl active:scale-[0.97] transition-all duration-300 border border-foreground/5 ring-1 ring-inset ring-white/10 shadow-sm"
             >
               {copied ? (
-                <Check className="w-6 h-6 text-green-500" />
+                <Check className="w-6 h-6 text-green-500 scale-110" />
               ) : (
-                <Copy className="w-6 h-6 text-foreground/70" />
+                <Copy className="w-6 h-6 text-foreground/70 group-hover:scale-110 transition-transform" />
               )}
               <span className="text-sm font-medium tracking-wide">{copied ? "Copied!" : "Copy Email"}</span>
             </button>

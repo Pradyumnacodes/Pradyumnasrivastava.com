@@ -63,7 +63,7 @@ function Index() {
         <AnimateIn as="section" animation="fade-up" duration={800}>
           <Parallax offset={25}>
             <StaggerText 
-              className="text-4xl md:text-5xl leading-[1.15] tracking-tight font-medium text-balance"
+              className="text-4xl md:text-[3.5rem] leading-[1.1] tracking-tighter font-medium text-balance"
               text="I'm a senior product designer working at the intersection of *finance,* *data* and *AI* — shaping interfaces used by millions and tied to hundreds of millions in business impact."
             />
             <p className="mt-8 text-lg leading-relaxed text-muted-foreground font-sans">
@@ -127,7 +127,7 @@ function Index() {
                 {/* Timeline dot */}
                 <span className="absolute left-[-5px] top-8 w-2 h-2 rounded-full bg-border group-hover:bg-foreground group-hover:scale-125 transition-all duration-300" />
                 <div className="flex items-baseline justify-between gap-4 mb-1 flex-wrap">
-                  <h3 className="text-xl md:text-2xl tracking-tight font-medium group-hover:text-foreground transition-colors">
+                  <h3 className="text-xl md:text-2xl tracking-tighter font-medium group-hover:text-foreground transition-colors">
                     {exp.company}
                   </h3>
                   <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground shrink-0">
@@ -181,7 +181,7 @@ function Index() {
                       </span>
                     )}
                   </div>
-                  <h2 className={`${i === 0 ? "text-3xl md:text-5xl mb-4" : "text-2xl md:text-3xl mb-3"} leading-snug tracking-tight font-medium text-balance group-hover:text-muted-foreground transition-colors duration-300`}>
+                  <h2 className={`${i === 0 ? "text-3xl md:text-[3.25rem] mb-6" : "text-2xl md:text-3xl mb-3"} leading-[1.1] tracking-tighter font-medium text-balance group-hover:text-muted-foreground transition-colors duration-300`}>
                     {c.title}
                   </h2>
                   <p className={`${i === 0 ? "text-lg md:text-xl text-muted-foreground/90" : "text-base text-muted-foreground"} font-sans leading-relaxed`}>
@@ -236,7 +236,7 @@ function Index() {
         {/* Contact (Desktop) */}
         <AnimateIn as="section" animation="fade-up" delay={100} className="hidden md:block">
           <SectionRule label="Contact" />
-          <p className="text-2xl md:text-3xl leading-snug tracking-tight font-medium text-balance">
+          <p className="text-3xl md:text-[2.75rem] leading-[1.1] tracking-tighter font-medium text-balance">
             If you're building something significant in finance, data or AI — I'd like to hear
             about it.
           </p>
