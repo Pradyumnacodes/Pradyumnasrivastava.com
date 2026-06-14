@@ -11,6 +11,7 @@ import { AccessibilityProvider } from "@/hooks/use-accessibility";
 import { AccessibilityPanel } from "@/components/AccessibilityPanel";
 import { CustomCursor } from "@/components/CustomCursor";
 import { MobileContactOrb } from "@/components/MobileContactOrb";
+import { ImmersiveToggle } from "@/components/ImmersiveToggle";
 
 import appCss from "../styles.css?url";
 
@@ -131,6 +132,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AccessibilityProvider>
         <main id="main-content" className="relative isolate">
+          <ImmersiveToggle />
           {/* Global Edge Silhouette / Vignette */}
           <div className="pointer-events-none fixed top-0 left-0 w-screen h-[100lvh] z-[100] shadow-[inset_0_0_150px_rgba(0,0,0,0.15)] dark:shadow-[inset_0_0_200px_rgba(0,0,0,0.8)]" />
           <CustomCursor />

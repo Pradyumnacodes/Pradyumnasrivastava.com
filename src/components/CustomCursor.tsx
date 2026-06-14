@@ -6,6 +6,7 @@ export function CustomCursor() {
   
   const [isVisible, setIsVisible] = useState(false);
   const [isIdle, setIsIdle] = useState(false);
+  const [gyroGranted, setGyroGranted] = useState<boolean | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   const idleTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -15,7 +16,15 @@ export function CustomCursor() {
   }, []);
 
   useEffect(() => {
-    // Shared timeout logic
+    const handleGyroGranted = () => {
+      setGyroGranted(true);
+      setIsVisible(true);
+    };
+    window.addEventListener('gyroGranted', handleGyroGranted);
+    return () => window.removeEventListener('gyroGranted', handleGyroGranted);
+  }, []);
+
+  useEffect(() => {
     const resetIdle = (delay: number) => {
       if (!isVisible) setIsVisible(true);
       if (isIdle) setIsIdle(false);
@@ -23,24 +32,28 @@ export function CustomCursor() {
       idleTimeout.current = setTimeout(() => setIsIdle(true), delay);
     };
 
-    // Desktop Mouse Tracking
     const onMouseMove = (e: MouseEvent) => {
       if (isMobile) return;
       pos.current = { x: e.clientX, y: e.clientY };
       resetIdle(1500);
     };
 
-    // Mobile Touch Tracking (Permission-Free)
-    const onTouchMove = (e: TouchEvent) => {
-      if (!isMobile || e.touches.length === 0) return;
-      pos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      resetIdle(2500); // slightly longer idle for touch
-    };
+    const onDeviceOrientation = (e: DeviceOrientationEvent) => {
+      if (!isMobile) return;
+      if (e.gamma === null || e.beta === null) return;
 
-    const onTouchStart = (e: TouchEvent) => {
-      if (!isMobile || e.touches.length === 0) return;
-      pos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      resetIdle(2500);
+      // Base orientation mapping
+      // e.gamma is left/right (-90 to 90)
+      // e.beta is front/back (-180 to 180)
+      
+      // Calculate coordinates from center
+      const x = window.innerWidth / 2 + (e.gamma / 45) * (window.innerWidth / 2);
+      
+      // Assume a neutral holding angle is around 45 degrees for beta
+      const y = window.innerHeight / 2 + ((e.beta - 45) / 45) * (window.innerHeight / 2);
+
+      pos.current = { x, y };
+      resetIdle(3000);
     };
     
     const onMouseLeave = () => setIsVisible(false);
@@ -50,33 +63,29 @@ export function CustomCursor() {
     document.addEventListener("mouseleave", onMouseLeave);
     document.addEventListener("mouseenter", onMouseEnter);
     
-    // Passive true ensures touch tracking doesn't block scrolling performance
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    if (gyroGranted) {
+      window.addEventListener("deviceorientation", onDeviceOrientation);
+    }
 
     let animationFrameId: number;
     let currentX = pos.current.x;
     let currentY = pos.current.y;
 
     const loop = () => {
-      // Torchlight Physics
       if (spotlightRef.current) {
         if (isMobile) {
-          // Add a slight drag/smoothing to the touch tracking
-          currentX += (pos.current.x - currentX) * 0.15;
-          currentY += (pos.current.y - currentY) * 0.15;
+          currentX += (pos.current.x - currentX) * 0.1;
+          currentY += (pos.current.y - currentY) * 0.1;
         } else {
           currentX = pos.current.x;
           currentY = pos.current.y;
         }
 
-        // The Sweet Spot: Increased radius and brighter inner core
         const size = isMobile ? 150 : 300; 
         spotlightRef.current.style.maskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.7) 40%, transparent 80%)`;
         spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.7) 40%, transparent 80%)`;
       }
       
-      // Desktop precise dot
       if (!isMobile) {
         const exactDot = document.getElementById('exact-dot');
         if (exactDot) {
@@ -92,22 +101,19 @@ export function CustomCursor() {
       window.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseleave", onMouseLeave);
       document.removeEventListener("mouseenter", onMouseEnter);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("deviceorientation", onDeviceOrientation);
       if (idleTimeout.current) clearTimeout(idleTimeout.current);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isVisible, isIdle, isMobile]);
+  }, [isVisible, isIdle, isMobile, gyroGranted]);
 
   const getOpacityClass = () => {
-    // Increased base opacity slightly so the sweet spot feels richer
     if (isVisible && !isIdle) return isMobile ? 'opacity-[0.25]' : 'opacity-[0.3]';
     return 'opacity-0';
   };
 
   return (
     <>
-      {/* The main torchlight/spotlight */}
       <div
         ref={spotlightRef}
         className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-[1500ms] ease-in-out ${getOpacityClass()}`}
