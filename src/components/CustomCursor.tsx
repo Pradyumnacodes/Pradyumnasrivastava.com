@@ -16,23 +16,13 @@ export function CustomCursor() {
     setIsMobile(window.matchMedia("(max-width: 768px)").matches);
   }, []);
 
-  const requestGyro = useCallback(async () => {
-    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-      try {
-        const permissionState = await (DeviceOrientationEvent as any).requestPermission();
-        if (permissionState === 'granted') {
-          setGyroGranted(true);
-          setIsVisible(true);
-        } else {
-          setGyroGranted(false);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
+  useEffect(() => {
+    const handleGyroGranted = () => {
       setGyroGranted(true);
       setIsVisible(true);
-    }
+    };
+    window.addEventListener('gyroGranted', handleGyroGranted);
+    return () => window.removeEventListener('gyroGranted', handleGyroGranted);
   }, []);
 
   useEffect(() => {
@@ -73,9 +63,6 @@ export function CustomCursor() {
     if (gyroGranted) {
       window.addEventListener("deviceorientation", onDeviceOrientation);
     }
-    
-    const handleGyroRequest = () => requestGyro();
-    window.addEventListener('requestGyro', handleGyroRequest);
 
     let animationFrameId: number;
     let currentX = pos.current.x;
@@ -153,7 +140,6 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", onMouseLeave);
       document.removeEventListener("mouseenter", onMouseEnter);
       window.removeEventListener("deviceorientation", onDeviceOrientation);
-      window.removeEventListener('requestGyro', handleGyroRequest);
       if (idleTimeout.current) clearTimeout(idleTimeout.current);
       cancelAnimationFrame(animationFrameId);
     };

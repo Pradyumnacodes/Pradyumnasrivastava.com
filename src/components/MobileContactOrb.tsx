@@ -1,0 +1,162 @@
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Download, Copy, Check, X, ArrowUpRight, Accessibility, View } from "lucide-react";
+
+export function MobileContactOrb() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [gyroStatus, setGyroStatus] = useState<"idle" | "granted" | "denied">("idle");
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("pradyumna.s.edu@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const requestGyro = async () => {
+    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      try {
+        const permissionState = await (DeviceOrientationEvent as any).requestPermission();
+        if (permissionState === 'granted') {
+          setGyroStatus("granted");
+          window.dispatchEvent(new Event('gyroGranted'));
+        } else {
+          setGyroStatus("denied");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      setGyroStatus("granted");
+      window.dispatchEvent(new Event('gyroGranted'));
+    }
+  };
+
+  const openA11y = () => {
+    setIsOpen(false);
+    setTimeout(() => {
+      window.dispatchEvent(new Event("openAccessibility"));
+    }, 400); // Wait for modal to close
+  };
+
+  if (!isMobile) return null;
+
+  return (
+    <>
+      {/* The Sleek Frosted Glass Pill (FAB) */}
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.div
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50"
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <button
+              onClick={() => setIsOpen(true)}
+              className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-background/70 dark:bg-foreground/5 backdrop-blur-2xl border border-foreground/10 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)] active:scale-95 transition-transform"
+            >
+              <span className="text-sm font-medium tracking-wide">Contact & Settings</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Cinematic Fullscreen Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="fixed inset-0 z-[100] bg-background/70 dark:bg-background/80 backdrop-blur-3xl flex flex-col items-center justify-center p-6 overflow-y-auto"
+          >
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-8 right-6 p-3 rounded-full bg-foreground/5 hover:bg-foreground/10 active:scale-95 transition-all"
+            >
+              <X className="w-6 h-6 text-foreground" />
+            </button>
+
+            <motion.div 
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
+              className="w-full max-w-sm flex flex-col gap-10 py-12"
+            >
+              <div className="text-center">
+                <h2 className="text-5xl font-serif text-foreground mb-4">Say Hello.</h2>
+                <p className="text-foreground/60 text-lg">I'm currently open to new opportunities.</p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col gap-4 w-full">
+                <a 
+                  href="/pradyumna_srivastava_resume.pdf" 
+                  download="Pradyumna_Srivastava_Resume.pdf"
+                  className="group flex items-center justify-between w-full bg-foreground text-background px-6 py-5 rounded-2xl active:scale-[0.98] transition-all"
+                >
+                  <span className="font-medium text-lg">Download Resume</span>
+                  <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+                </a>
+
+                <a 
+                  href="mailto:pradyumna.s.edu@gmail.com"
+                  className="group flex items-center justify-between w-full bg-foreground/5 text-foreground px-6 py-5 rounded-2xl active:bg-foreground/10 active:scale-[0.98] transition-all border border-foreground/5"
+                >
+                  <span className="font-medium text-lg">Email Me</span>
+                  <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </a>
+
+                <button 
+                  onClick={handleCopy}
+                  className="group flex items-center justify-between w-full bg-foreground/5 text-foreground px-6 py-5 rounded-2xl active:bg-foreground/10 active:scale-[0.98] transition-all border border-foreground/5"
+                >
+                  <span className="font-medium text-lg">{copied ? "Email Copied!" : "Copy Email"}</span>
+                  {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
+                </button>
+              </div>
+
+              {/* Toggles / Settings */}
+              <div className="flex flex-row justify-center gap-4 w-full mt-4">
+                <button
+                  onClick={openA11y}
+                  className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-foreground/5 hover:bg-foreground/10 active:scale-95 transition-all text-foreground/60 hover:text-foreground w-28 h-28 border border-foreground/5"
+                >
+                  <Accessibility className="w-6 h-6" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-center">A11y</span>
+                </button>
+
+                {gyroStatus !== "granted" && (
+                  <button
+                    onClick={requestGyro}
+                    className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-foreground/5 hover:bg-foreground/10 active:scale-95 transition-all text-foreground/60 hover:text-foreground w-28 h-28 border border-foreground/5"
+                  >
+                    <View className="w-6 h-6" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-center">Enable 3D</span>
+                  </button>
+                )}
+                {gyroStatus === "granted" && (
+                  <div className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-green-500/10 text-green-500 w-28 h-28 border border-green-500/20">
+                    <Check className="w-6 h-6" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-center">3D Active</span>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
