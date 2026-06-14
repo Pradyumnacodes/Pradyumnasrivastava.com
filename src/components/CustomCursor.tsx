@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function CustomCursor() {
   const spotlightRef = useRef<HTMLDivElement>(null);
-  const velocityLayerRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: -100, y: -100 });
   
   const [isVisible, setIsVisible] = useState(false);
@@ -68,13 +67,8 @@ export function CustomCursor() {
     let currentX = pos.current.x;
     let currentY = pos.current.y;
 
-    // Scroll physics variables
-    let lastScrollY = window.scrollY;
-    let smoothedVelocity = 0;
-    let currentOpacity = 0;
-
     const loop = () => {
-      // 1. Torchlight Physics (Mouse / Gyro)
+      // Torchlight Physics (Mouse / Gyro)
       if (spotlightRef.current) {
         if (isMobile) {
           currentX += (pos.current.x - currentX) * 0.1;
@@ -89,40 +83,7 @@ export function CustomCursor() {
         spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.5) 30%, transparent 80%)`;
       }
       
-      // 2. Scroll-Velocity & Overscroll Physics (Mobile Only)
-      if (isMobile && velocityLayerRef.current) {
-        const currentScrollY = window.scrollY;
-        const maxScroll = Math.max(0, document.body.scrollHeight - window.innerHeight);
-        
-        // Calculate velocity
-        const velocity = Math.abs(currentScrollY - lastScrollY);
-        lastScrollY = currentScrollY;
-        smoothedVelocity += (velocity - smoothedVelocity) * 0.1; // Smooth out the velocity reading
-
-        // Calculate overscroll (pulling past top or bottom bounds)
-        let overscrollAmount = 0;
-        if (currentScrollY < 0) {
-          overscrollAmount = Math.abs(currentScrollY);
-        } else if (currentScrollY > maxScroll && maxScroll > 0) {
-          overscrollAmount = currentScrollY - maxScroll;
-        }
-
-        let targetOpacity = 0;
-        
-        if (overscrollAmount > 0) {
-          // Overscroll Easter Egg: Vivid reveal based on pull distance
-          targetOpacity = Math.min(0.5, (overscrollAmount / 150) * 0.5);
-        } else {
-          // Normal scroll: completely hidden by default
-          targetOpacity = 0;
-        }
-
-        // Apply heavily damped physics to the opacity for a buttery smooth fade
-        currentOpacity += (targetOpacity - currentOpacity) * 0.05;
-        velocityLayerRef.current.style.opacity = currentOpacity.toFixed(3);
-      }
-
-      // 3. Desktop precise dot
+      // Desktop precise dot
       if (!isMobile) {
         const exactDot = document.getElementById('exact-dot');
         if (exactDot) {
@@ -163,22 +124,6 @@ export function CustomCursor() {
           WebkitMaskImage: "radial-gradient(circle 0px at 0px 0px, transparent 0%, transparent 100%)",
         }}
       />
-      
-      {/* Physics-driven Velocity & Overscroll Layer */}
-      {isMobile && (
-        <div
-          ref={velocityLayerRef}
-          className="fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-1]"
-          style={{
-            backgroundImage: "url('/da-vinci.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            opacity: 0, // Controlled purely by JS requestAnimationFrame for 60fps smoothness
-            maskImage: "radial-gradient(circle 800px at 50% 50%, black 100%, transparent 100%)",
-            WebkitMaskImage: "radial-gradient(circle 800px at 50% 50%, black 100%, transparent 100%)",
-          }}
-        />
-      )}
     </>
   );
 }
