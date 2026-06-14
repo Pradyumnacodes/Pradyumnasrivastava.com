@@ -7,7 +7,13 @@ export function CustomCursor() {
   const [isIdle, setIsIdle] = useState(false);
   const [gyroGranted, setGyroGranted] = useState<boolean | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  
+  const [showShimmer, setShowShimmer] = useState(false);
+  const shimmerRef = useRef<HTMLDivElement>(null);
+
   const idleTimeout = useRef<NodeJS.Timeout | null>(null);
+  const shimmerTimeout = useRef<NodeJS.Timeout | null>(null);
+  const scrollIdleTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(max-width: 768px)").matches);
@@ -27,11 +33,56 @@ export function CustomCursor() {
         console.error(err);
       }
     } else {
-      // Non iOS 13+ devices
       setGyroGranted(true);
       setIsVisible(true);
     }
   }, []);
+
+  useEffect(() => {
+    const triggerShimmer = () => {
+      setShowShimmer(true);
+      if (shimmerRef.current) {
+        // Reset position
+        shimmerRef.current.style.maskPosition = "-200% 0";
+        shimmerRef.current.style.WebkitMaskPosition = "-200% 0";
+        
+        // Force reflow
+        void shimmerRef.current.offsetWidth;
+        
+        // Animate
+        shimmerRef.current.style.transition = "mask-position 2s ease-in-out, -webkit-mask-position 2s ease-in-out";
+        shimmerRef.current.style.maskPosition = "200% 0";
+        shimmerRef.current.style.WebkitMaskPosition = "200% 0";
+      }
+      
+      if (shimmerTimeout.current) clearTimeout(shimmerTimeout.current);
+      shimmerTimeout.current = setTimeout(() => {
+        setShowShimmer(false);
+      }, 2000);
+    };
+
+    const handleScroll = () => {
+      if (!isMobile) return;
+      if (scrollIdleTimeout.current) clearTimeout(scrollIdleTimeout.current);
+      
+      // 3.2 seconds of no scrolling triggers shimmer
+      scrollIdleTimeout.current = setTimeout(() => {
+        triggerShimmer();
+      }, 3200);
+    };
+
+    if (isMobile) {
+      window.addEventListener("scroll", handleScroll);
+      // Trigger initial timer
+      handleScroll();
+    }
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollIdleTimeout.current) clearTimeout(scrollIdleTimeout.current);
+      if (shimmerTimeout.current) clearTimeout(shimmerTimeout.current);
+    };
+  }, [isMobile]);
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -52,8 +103,6 @@ export function CustomCursor() {
       if (!isVisible) setIsVisible(true);
       if (isIdle) setIsIdle(false);
 
-      // Gamma: left to right (-90 to 90)
-      // Beta: front to back (-180 to 180). Assume 45 is normal holding angle.
       const x = window.innerWidth / 2 + (e.gamma / 45) * (window.innerWidth / 2);
       const y = window.innerHeight / 2 + ((e.beta - 45) / 45) * (window.innerHeight / 2);
 
@@ -80,7 +129,6 @@ export function CustomCursor() {
 
     const loop = () => {
       if (spotlightRef.current) {
-        // Smooth interpolation for gyro, instant for mouse
         if (isMobile) {
           currentX += (pos.current.x - currentX) * 0.1;
           currentY += (pos.current.y - currentY) * 0.1;
@@ -89,7 +137,8 @@ export function CustomCursor() {
           currentY = pos.current.y;
         }
 
-        const size = isMobile ? 400 : 350; // Larger spread on mobile
+        // Tiny "Torchlight" on mobile, large spread on desktop
+        const size = isMobile ? 120 : 350; 
         spotlightRef.current.style.maskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 40%, transparent 100%)`;
         spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 40%, transparent 100%)`;
       }
@@ -121,7 +170,7 @@ export function CustomCursor() {
       <div
         ref={spotlightRef}
         className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-1] transition-opacity duration-1000 ${
-          isVisible && !isIdle ? (isMobile ? 'opacity-[0.10]' : 'opacity-[0.25]') : 'opacity-0'
+          isVisible && !isIdle ? (isMobile ? 'opacity-[0.15]' : 'opacity-[0.25]') : 'opacity-0'
         }`}
         style={{
           backgroundImage: "url('/da-vinci.jpg')",
@@ -131,6 +180,27 @@ export function CustomCursor() {
           WebkitMaskImage: "radial-gradient(circle 0px at 0px 0px, transparent 0%, transparent 100%)",
         }}
       />
+      
+      {/* 3.2s Idle Metallic Shimmer Layer */}
+      {isMobile && (
+        <div
+          ref={shimmerRef}
+          className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-1] transition-opacity duration-500 ${
+            showShimmer ? 'opacity-[0.4]' : 'opacity-0'
+          }`}
+          style={{
+            backgroundImage: "url('/da-vinci.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            maskImage: "linear-gradient(60deg, transparent 20%, white 50%, transparent 80%)",
+            maskSize: "300% 100%",
+            maskPosition: "-200% 0",
+            WebkitMaskImage: "linear-gradient(60deg, transparent 20%, white 50%, transparent 80%)",
+            WebkitMaskSize: "300% 100%",
+            WebkitMaskPosition: "-200% 0",
+          }}
+        />
+      )}
       
       {isMobile && gyroGranted === null && (
         <button
