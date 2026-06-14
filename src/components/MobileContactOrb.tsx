@@ -76,10 +76,9 @@ export function MobileContactOrb() {
             }}
             onClick={() => setIsOpen(true)}
           >
-            {/* Premium Solid Design */}
-            <div className="w-16 h-16 rounded-full bg-foreground text-background shadow-[0_10px_40px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_rgba(255,255,255,0.2)] flex flex-col items-center justify-center ring-4 ring-background/50">
-              <Sparkles className="w-6 h-6 mb-0.5" />
-              <span className="text-[9px] font-bold tracking-widest uppercase">Hello</span>
+            {/* Minimalist Glass Design */}
+            <div className="w-12 h-12 rounded-full bg-background/40 dark:bg-foreground/10 backdrop-blur-xl border border-foreground/10 dark:border-foreground/20 shadow-[0_8px_30px_rgba(0,0,0,0.12)] flex items-center justify-center group-active:scale-95 transition-transform">
+              <div className="w-1.5 h-1.5 rounded-full bg-foreground/70" />
             </div>
           </motion.div>
         )}

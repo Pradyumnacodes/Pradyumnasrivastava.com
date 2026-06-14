@@ -121,7 +121,7 @@ export function CustomCursor() {
       <div
         ref={spotlightRef}
         className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-1] transition-opacity duration-1000 ${
-          isVisible && !isIdle ? (isMobile ? 'opacity-[0.35]' : 'opacity-[0.25]') : 'opacity-0'
+          isVisible && !isIdle ? (isMobile ? 'opacity-[0.10]' : 'opacity-[0.25]') : 'opacity-0'
         }`}
         style={{
           backgroundImage: "url('/da-vinci.jpg')",
