@@ -10,7 +10,6 @@ import {
 import { AccessibilityProvider } from "@/hooks/use-accessibility";
 import { AccessibilityPanel } from "@/components/AccessibilityPanel";
 import { CustomCursor } from "@/components/CustomCursor";
-import { MobileContactOrb } from "@/components/MobileContactOrb";
 import { ImmersiveToggle } from "@/components/ImmersiveToggle";
 
 import appCss from "../styles.css?url";
@@ -141,7 +140,6 @@ function RootComponent() {
 
         </main>
         <AccessibilityPanel />
-        <MobileContactOrb />
       </AccessibilityProvider>
     </QueryClientProvider>
   );

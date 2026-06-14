@@ -5,6 +5,7 @@ import { StaggerText } from "@/components/StaggerText";
 import { Parallax } from "@/components/Parallax";
 import { AnimateIn } from "@/components/AnimateIn";
 import { StoryList } from "@/components/StoryList";
+import { MobileContactCard } from "@/components/MobileContactCard";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -57,7 +58,7 @@ function Index() {
         <ThemeToggle />
       </header>
 
-      <article className="max-w-2xl mx-auto px-6 py-20 md:py-28 space-y-28">
+      <article className="max-w-2xl mx-auto px-6 py-20 md:py-28 space-y-16 md:space-y-28">
         {/* Hero */}
         <AnimateIn as="section" animation="fade-up" duration={800}>
           <Parallax offset={25}>
@@ -232,8 +233,8 @@ function Index() {
           </p>
         </AnimateIn>
 
-        {/* Contact */}
-        <AnimateIn as="section" animation="fade-up" delay={100}>
+        {/* Contact (Desktop) */}
+        <AnimateIn as="section" animation="fade-up" delay={100} className="hidden md:block">
           <SectionRule label="Contact" />
           <p className="text-2xl md:text-3xl leading-snug tracking-tight font-medium text-balance">
             If you're building something significant in finance, data or AI — I'd like to hear
@@ -273,6 +274,8 @@ function Index() {
             </li>
           </ul>
         </AnimateIn>
+
+        <MobileContactCard />
 
         <AnimateIn as="footer" animation="fade-in" delay={200} className="pt-12 border-t border-border font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground flex justify-between">
           <span>© {new Date().getFullYear()} Pradyumna</span>
