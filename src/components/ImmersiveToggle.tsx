@@ -6,7 +6,7 @@ export function ImmersiveToggle() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 1024px)").matches || 'ontouchstart' in window);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
@@ -34,7 +34,7 @@ export function ImmersiveToggle() {
   if (!isMobile) return null;
 
   return (
-    <div className="fixed bottom-8 right-6 z-50">
+    <div className="fixed top-6 right-20 z-50">
       <button
         onClick={gyroStatus !== "granted" ? requestGyro : undefined}
         className={`flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md shadow-lg ring-1 transition-all active:scale-95 ${
