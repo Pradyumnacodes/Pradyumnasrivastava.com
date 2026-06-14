@@ -74,6 +74,18 @@ export function CustomCursor() {
           // Smooth the mobile gyro jitter
           currentX += (pos.current.x - currentX) * 0.15;
           currentY += (pos.current.y - currentY) * 0.15;
+
+          // Tilt-to-scroll logic
+          const scrollThreshold = window.innerHeight * 0.15; // 15% margin
+          const maxScrollSpeed = 12;
+
+          if (currentY < scrollThreshold) {
+            const intensity = 1 - Math.max(0, currentY / scrollThreshold);
+            window.scrollBy({ top: -maxScrollSpeed * intensity, behavior: "instant" });
+          } else if (currentY > window.innerHeight - scrollThreshold) {
+            const intensity = Math.min(1, (currentY - (window.innerHeight - scrollThreshold)) / scrollThreshold);
+            window.scrollBy({ top: maxScrollSpeed * intensity, behavior: "instant" });
+          }
         } else {
           currentX = pos.current.x;
           currentY = pos.current.y;
@@ -107,8 +119,8 @@ export function CustomCursor() {
   const getOpacityClass = () => {
     // If mobile and gyro granted, it is permanently visible.
     // If desktop, it is visible while mouse is on screen.
-    if (isMobile && gyroGranted) return 'opacity-30 dark:opacity-20';
-    if (!isMobile && isVisible) return 'opacity-30 dark:opacity-20';
+    if (isMobile && gyroGranted) return 'opacity-[0.15] dark:opacity-[0.08]';
+    if (!isMobile && isVisible) return 'opacity-[0.15] dark:opacity-[0.08]';
     return 'opacity-0';
   };
 
@@ -116,7 +128,7 @@ export function CustomCursor() {
     <>
       <div
         ref={spotlightRef}
-        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-overlay dark:mix-blend-screen dark:brightness-[0.4] dark:contrast-[1.2] grayscale-[0.5] ${getOpacityClass()}`}
+        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-overlay dark:mix-blend-screen dark:brightness-[0.3] dark:contrast-[1.1] grayscale-[0.8] blur-[3px] ${getOpacityClass()}`}
         style={{
           backgroundImage: "url('/da-vinci.jpg')",
           backgroundSize: "cover",
