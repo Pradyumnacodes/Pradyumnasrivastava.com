@@ -42,15 +42,13 @@ export function CustomCursor() {
       if (!isMobile) return;
       if (e.gamma === null || e.beta === null) return;
 
-      // Base orientation mapping
-      // e.gamma is left/right (-90 to 90)
-      // e.beta is front/back (-180 to 180)
-      
-      // Calculate coordinates from center
-      const x = window.innerWidth / 2 + (e.gamma / 45) * (window.innerWidth / 2);
-      
-      // Assume a neutral holding angle is around 45 degrees for beta
-      const y = window.innerHeight / 2 + ((e.beta - 45) / 45) * (window.innerHeight / 2);
+      // Clamp gamma to prevent flying off left/right
+      const gamma = Math.max(-45, Math.min(45, e.gamma));
+      // Clamp beta to prevent flying off top/bottom (assume 45 is neutral holding angle)
+      const beta = Math.max(0, Math.min(90, e.beta));
+
+      const x = window.innerWidth / 2 + (gamma / 45) * (window.innerWidth / 2);
+      const y = window.innerHeight / 2 + ((beta - 45) / 45) * (window.innerHeight / 2);
 
       pos.current = { x, y };
       resetIdle(3000);
@@ -108,7 +106,7 @@ export function CustomCursor() {
   }, [isVisible, isIdle, isMobile, gyroGranted]);
 
   const getOpacityClass = () => {
-    if (isVisible && !isIdle) return isMobile ? 'opacity-[0.25]' : 'opacity-[0.3]';
+    if (isVisible && !isIdle) return 'opacity-100';
     return 'opacity-0';
   };
 
