@@ -139,7 +139,7 @@ export function CustomCursor() {
     <>
       <div
         ref={spotlightRef}
-        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-multiply dark:mix-blend-screen blur-[3px] sepia-[0.5] contrast-[1.1] dark:brightness-[0.8] ${getOpacityClass()}`}
+        className={`fixed inset-0 pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-multiply dark:mix-blend-screen blur-[3px] sepia-[0.5] contrast-[1.1] dark:brightness-[0.8] ${getOpacityClass()}`}
         style={{
           backgroundImage: "url('/da-vinci.jpg')",
           backgroundSize: "cover",
