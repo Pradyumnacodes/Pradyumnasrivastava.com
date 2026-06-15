@@ -100,11 +100,9 @@ export function CustomCursor() {
           currentY = pos.current.y;
         }
 
-        const size = isMobile ? 400 : 800;
-        const offset = size / 2;
-        spotlightRef.current.style.transform = `translate3d(${currentX - offset}px, ${currentY - offset}px, 0)`;
-        spotlightRef.current.style.width = `${size}px`;
-        spotlightRef.current.style.height = `${size}px`;
+        const size = isMobile ? 300 : 500;
+        spotlightRef.current.style.maskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.6) 40%, transparent 70%)`;
+        spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.6) 40%, transparent 70%)`;
       }
       
       if (!isMobile) {
@@ -130,8 +128,8 @@ export function CustomCursor() {
   }, [isVisible, isMobile, gyroGranted]);
 
   const getOpacityClass = () => {
-    // Premium glow: higher opacity on desktop, subtle on mobile
-    if (isMobile) return 'opacity-50 dark:opacity-40';
+    // Da Vinci manuscript needs enough opacity to be seen, but not overpower the text.
+    if (isMobile) return 'opacity-60 dark:opacity-40';
     if (!isMobile && isVisible) return 'opacity-60 dark:opacity-40';
     return 'opacity-0';
   };
@@ -140,10 +138,13 @@ export function CustomCursor() {
     <>
       <div
         ref={spotlightRef}
-        className={`fixed top-0 left-0 rounded-full pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-multiply dark:mix-blend-screen blur-[80px] sm:blur-[120px] ${getOpacityClass()}`}
+        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-multiply dark:mix-blend-screen blur-[3px] grayscale-[0.3] sepia-[0.2] dark:brightness-[0.7] ${getOpacityClass()}`}
         style={{
-          background: "radial-gradient(circle, var(--foreground) 0%, transparent 70%)",
-          willChange: "transform",
+          backgroundImage: "url('/da-vinci.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          maskImage: "radial-gradient(circle 0px at 0px 0px, transparent 0%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(circle 0px at 0px 0px, transparent 0%, transparent 100%)",
         }}
       />
     </>
