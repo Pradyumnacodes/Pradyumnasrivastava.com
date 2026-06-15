@@ -100,7 +100,8 @@ export function CustomCursor() {
           currentY = pos.current.y;
         }
 
-        const size = isMobile ? 300 : 500;
+        // Reduced radius by 15%
+        const size = isMobile ? 255 : 425;
         spotlightRef.current.style.maskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.6) 40%, transparent 70%)`;
         spotlightRef.current.style.WebkitMaskImage = `radial-gradient(circle ${size}px at ${currentX}px ${currentY}px, black 0%, rgba(0,0,0,0.6) 40%, transparent 70%)`;
       }
@@ -138,7 +139,7 @@ export function CustomCursor() {
     <>
       <div
         ref={spotlightRef}
-        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-multiply dark:mix-blend-screen blur-[3px] grayscale-[0.3] sepia-[0.2] dark:brightness-[0.7] ${getOpacityClass()}`}
+        className={`fixed top-0 left-0 w-screen h-[100lvh] pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-multiply dark:mix-blend-screen blur-[3px] sepia-[0.5] contrast-[1.1] dark:brightness-[0.8] ${getOpacityClass()}`}
         style={{
           backgroundImage: "url('/da-vinci.jpg')",
           backgroundSize: "cover",
