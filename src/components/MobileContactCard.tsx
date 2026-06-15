@@ -28,18 +28,18 @@ export function MobileContactCard() {
         whileInView={{ y: 0, opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="w-full relative overflow-hidden bg-background/60 dark:bg-surface/40 backdrop-blur-3xl border border-foreground/10 dark:border-white/10 rounded-[2rem] p-8 sm:p-10 flex flex-col items-center gap-10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] ring-1 ring-inset ring-white/20 dark:ring-white/5"
+        className="w-full relative overflow-hidden bg-background/60 dark:bg-[#1a130d]/80 backdrop-blur-3xl border border-foreground/10 dark:border-amber-500/20 rounded-[2rem] p-8 sm:p-10 flex flex-col items-center gap-10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.7)] ring-1 ring-inset ring-white/20 dark:ring-amber-500/10"
       >
-        <div className="absolute inset-0 bg-gradient-to-tr from-foreground/5 via-transparent to-transparent opacity-50 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-foreground/5 dark:from-amber-600/20 via-transparent to-transparent opacity-50 pointer-events-none" />
         <div className="text-center flex flex-col items-center">
           <motion.div 
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
             transition={{ type: "spring", delay: 0.2 }}
             viewport={{ once: true }}
-            className="w-16 h-16 rounded-full bg-foreground/5 flex items-center justify-center mb-6"
+            className="w-16 h-16 rounded-full bg-foreground/5 dark:bg-amber-500/10 flex items-center justify-center mb-6 ring-1 ring-transparent dark:ring-amber-500/20"
           >
-            <div className="w-2 h-2 rounded-full bg-foreground/60 animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-foreground/60 dark:bg-amber-400 animate-pulse shadow-[0_0_10px_rgba(251,191,36,0.8)]" />
           </motion.div>
           <h2 className="text-4xl font-serif text-foreground mb-3">Say Hello.</h2>
           <p className="text-foreground/60 text-lg">I'm currently open to new opportunities.</p>
@@ -59,7 +59,7 @@ export function MobileContactCard() {
           <div className="grid grid-cols-2 gap-4 mt-2">
             <a 
               href="mailto:pradyumna.s.edu@gmail.com"
-              className="flex flex-col items-center justify-center gap-3 bg-surface hover:bg-foreground/5 py-5 rounded-2xl active:scale-[0.97] transition-all duration-300 border border-foreground/5 ring-1 ring-inset ring-white/10 shadow-sm"
+              className="flex flex-col items-center justify-center gap-3 bg-surface dark:bg-black/40 hover:bg-foreground/5 dark:hover:bg-amber-500/10 py-5 rounded-2xl active:scale-[0.97] transition-all duration-300 border border-foreground/5 dark:border-amber-500/10 ring-1 ring-inset ring-white/10 dark:ring-amber-500/5 shadow-sm"
             >
               <ArrowUpRight className="w-6 h-6 text-foreground/70 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium tracking-wide">Email Me</span>
@@ -67,7 +67,7 @@ export function MobileContactCard() {
             
             <button 
               onClick={handleCopy}
-              className="group flex flex-col items-center justify-center gap-3 bg-surface hover:bg-foreground/5 py-5 rounded-2xl active:scale-[0.97] transition-all duration-300 border border-foreground/5 ring-1 ring-inset ring-white/10 shadow-sm"
+              className="group flex flex-col items-center justify-center gap-3 bg-surface dark:bg-black/40 hover:bg-foreground/5 dark:hover:bg-amber-500/10 py-5 rounded-2xl active:scale-[0.97] transition-all duration-300 border border-foreground/5 dark:border-amber-500/10 ring-1 ring-inset ring-white/10 dark:ring-amber-500/5 shadow-sm"
             >
               {copied ? (
                 <Check className="w-6 h-6 text-foreground scale-110" />
