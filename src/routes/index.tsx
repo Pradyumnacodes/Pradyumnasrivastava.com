@@ -6,6 +6,7 @@ import { Parallax } from "@/components/Parallax";
 import { AnimateIn } from "@/components/AnimateIn";
 import { StoryList } from "@/components/StoryList";
 import { MobileContactCard } from "@/components/MobileContactCard";
+import { ImmersiveToggle } from "@/components/ImmersiveToggle";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,7 +56,10 @@ function Index() {
         <span className="font-mono text-[12px] tracking-[0.15em] uppercase text-muted-foreground">
           Pradyumna Srivastava
         </span>
-        <ThemeToggle />
+        <div className="flex items-center gap-3">
+          <ImmersiveToggle />
+          <ThemeToggle />
+        </div>
       </header>
 
       <article className="max-w-2xl mx-auto px-6 py-20 md:py-28 space-y-16 md:space-y-28">
