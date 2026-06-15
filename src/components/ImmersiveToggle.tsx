@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Check } from "lucide-react";
+import { Check } from "lucide-react";
 
 export function ImmersiveToggle() {
   const [gyroStatus, setGyroStatus] = useState<"idle" | "granted" | "denied">("idle");
@@ -45,12 +45,11 @@ export function ImmersiveToggle() {
         {gyroStatus === "granted" ? (
           <>
             <Check className="w-3.5 h-3.5" />
-            <span className="text-[10px] font-mono uppercase tracking-widest font-medium">Immersive On</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest font-medium">Motion On</span>
           </>
         ) : (
           <>
-            <View className="w-3.5 h-3.5 opacity-70" />
-            <span className="text-[10px] font-mono uppercase tracking-widest font-medium opacity-80">Immersive Mode</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest font-medium opacity-80">Enable Motion</span>
           </>
         )}
       </button>
