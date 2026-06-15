@@ -75,12 +75,12 @@ export function CustomCursor() {
       if (spotlightRef.current) {
         if (isMobile) {
           if (gyroGranted) {
-            // Gyroscope Physics
-            currentX += (pos.current.x - currentX) * 0.15;
-            currentY += (pos.current.y - currentY) * 0.15;
+            // Slower, heavier Gyroscope Physics for a premium feel
+            currentX += (pos.current.x - currentX) * 0.06;
+            currentY += (pos.current.y - currentY) * 0.06;
           } else {
             // Autonomous Ambient Lantern Effect (Fallback / Default)
-            const time = Date.now() * 0.0005; // speed
+            const time = Date.now() * 0.00025; // 50% slower
             const cx = window.innerWidth / 2;
             const cy = window.innerHeight / 2;
             const rx = window.innerWidth * 0.4; // 40% horizontal radius
@@ -92,12 +92,13 @@ export function CustomCursor() {
             const targetX = cx + Math.sin(time * 0.7) * rx;
             const targetY = cy + Math.cos(time * 0.5) * ry - scrollImpact;
 
-            currentX += (targetX - currentX) * 0.05;
-            currentY += (targetY - currentY) * 0.05;
+            currentX += (targetX - currentX) * 0.03;
+            currentY += (targetY - currentY) * 0.03;
           }
         } else {
-          currentX = pos.current.x;
-          currentY = pos.current.y;
+          // Premium heavy lerping for desktop mouse
+          currentX += (pos.current.x - currentX) * 0.08;
+          currentY += (pos.current.y - currentY) * 0.08;
         }
 
         // Reduced radius by 15%
