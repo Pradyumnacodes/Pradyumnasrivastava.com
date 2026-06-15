@@ -142,7 +142,7 @@ export function CustomCursor() {
         ref={spotlightRef}
         className={`fixed top-0 left-0 rounded-full pointer-events-none z-[-2] transition-opacity duration-1000 ease-in-out mix-blend-multiply dark:mix-blend-screen blur-[80px] sm:blur-[120px] ${getOpacityClass()}`}
         style={{
-          background: "radial-gradient(circle, var(--brand-green) 0%, transparent 70%)",
+          background: "radial-gradient(circle, var(--foreground) 0%, transparent 70%)",
           willChange: "transform",
         }}
       />
