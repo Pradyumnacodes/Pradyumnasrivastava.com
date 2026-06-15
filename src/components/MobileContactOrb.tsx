@@ -97,7 +97,7 @@ export function MobileContactOrb() {
                     className="flex flex-col items-center justify-center gap-3 bg-foreground/5 py-5 rounded-2xl active:bg-foreground/10 transition-colors border border-foreground/5"
                   >
                     {copied ? (
-                      <Check className="w-6 h-6 text-green-500" />
+                      <Check className="w-6 h-6 text-foreground" />
                     ) : (
                       <Copy className="w-6 h-6 text-foreground/70" />
                     )}

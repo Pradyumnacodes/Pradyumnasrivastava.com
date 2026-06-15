@@ -37,10 +37,10 @@ export function ImmersiveToggle() {
     <div className="fixed top-6 right-20 z-50">
       <button
         onClick={gyroStatus !== "granted" ? requestGyro : undefined}
-        className={`flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md shadow-lg ring-1 transition-all active:scale-95 ${
+        className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-medium tracking-widest uppercase transition-all duration-300 ring-1 ${
           gyroStatus === "granted"
-            ? "bg-green-500/10 text-green-500 ring-green-500/20"
-            : "bg-foreground/5 text-foreground hover:bg-foreground/10 ring-border"
+            ? "bg-foreground text-background ring-foreground shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+            : "bg-surface/80 text-muted-foreground ring-border hover:text-foreground hover:bg-surface"
         }`}
       >
         {gyroStatus === "granted" ? (

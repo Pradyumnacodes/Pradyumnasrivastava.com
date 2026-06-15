@@ -30,7 +30,7 @@ export function MobileContactCard() {
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
         className="w-full relative overflow-hidden bg-background/60 dark:bg-surface/40 backdrop-blur-3xl border border-foreground/10 dark:border-white/10 rounded-[2rem] p-8 sm:p-10 flex flex-col items-center gap-10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] ring-1 ring-inset ring-white/20 dark:ring-white/5"
       >
-        <div className="absolute inset-0 bg-gradient-to-tr from-brand-green/10 via-transparent to-transparent opacity-50 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-foreground/5 via-transparent to-transparent opacity-50 pointer-events-none" />
         <div className="text-center flex flex-col items-center">
           <motion.div 
             initial={{ scale: 0 }}
@@ -39,7 +39,7 @@ export function MobileContactCard() {
             viewport={{ once: true }}
             className="w-16 h-16 rounded-full bg-foreground/5 flex items-center justify-center mb-6"
           >
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-foreground/60 animate-pulse" />
           </motion.div>
           <h2 className="text-4xl font-serif text-foreground mb-3">Say Hello.</h2>
           <p className="text-foreground/60 text-lg">I'm currently open to new opportunities.</p>
@@ -70,7 +70,7 @@ export function MobileContactCard() {
               className="group flex flex-col items-center justify-center gap-3 bg-surface hover:bg-foreground/5 py-5 rounded-2xl active:scale-[0.97] transition-all duration-300 border border-foreground/5 ring-1 ring-inset ring-white/10 shadow-sm"
             >
               {copied ? (
-                <Check className="w-6 h-6 text-green-500 scale-110" />
+                <Check className="w-6 h-6 text-foreground scale-110" />
               ) : (
                 <Copy className="w-6 h-6 text-foreground/70 group-hover:scale-110 transition-transform" />
               )}
