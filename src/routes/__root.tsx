@@ -84,6 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Senior Product Designer at a global card network. Shaping B2B SaaS and D2C experiences for 20M+ users with $435M+ in business impact.",
       },
+      { name: "keywords", content: "Pradyumna Srivastava, Product Designer, UX/UI Design, B2B SaaS, D2C, Senior Designer, Portfolio" },
       { name: "author", content: "Pradyumna Srivastava" },
       { property: "og:title", content: "Pradyumna Srivastava — Senior Product Designer" },
       {
@@ -92,7 +93,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Senior Product Designer at a global card network. Shaping B2B SaaS and D2C experiences for 20M+ users with $435M+ in business impact.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://pradyumnasrivastava.com" },
+      { property: "og:image", content: "https://pradyumnasrivastava.com/da-vinci.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Pradyumna Srivastava — Senior Product Designer" },
+      { name: "twitter:description", content: "Shaping B2B SaaS and D2C experiences for 20M+ users with $435M+ in business impact." },
+      { name: "twitter:image", content: "https://pradyumnasrivastava.com/da-vinci.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -101,6 +107,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+      },
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%230A0A0A"/><text x="50%" y="50%" font-family="ui-sans-serif, system-ui, sans-serif" font-size="56" font-weight="800" fill="%23D4AF37" text-anchor="middle" dominant-baseline="central" letter-spacing="-2">P</text></svg>',
+      },
+      {
+        rel: "apple-touch-icon",
+        href: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230A0A0A"/><text x="50%" y="50%" font-family="ui-sans-serif, system-ui, sans-serif" font-size="56" font-weight="800" fill="%23D4AF37" text-anchor="middle" dominant-baseline="central" letter-spacing="-2">P</text></svg>',
       },
     ],
   }),
