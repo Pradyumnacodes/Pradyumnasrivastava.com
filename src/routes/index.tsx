@@ -52,7 +52,7 @@ function Index() {
   return (
     <main className="min-h-dvh bg-transparent text-foreground font-serif">
       {/* Top bar */}
-      <header className="max-w-2xl mx-auto px-6 pt-8 flex items-center justify-between">
+      <header className="max-w-7xl mx-auto px-6 pt-8 flex items-center justify-between">
         <span className="font-mono text-[12px] tracking-[0.15em] uppercase text-muted-foreground">
           Pradyumna Srivastava
         </span>
@@ -62,7 +62,7 @@ function Index() {
         </div>
       </header>
 
-      <article className="max-w-2xl mx-auto px-6 py-20 md:py-28 space-y-16 md:space-y-28">
+      <article className="max-w-7xl mx-auto px-6 py-20 md:py-28 space-y-16 md:space-y-28">
         {/* Hero */}
         <AnimateIn as="section" animation="fade-up" duration={800}>
           <Parallax offset={25}>
