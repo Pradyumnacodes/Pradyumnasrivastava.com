@@ -47,13 +47,11 @@ export const CASES: CaseCard[] = [
 
 export const STORIES: Story[] = [
   {
-    title: "Hug Content or Fill Container? From Zero to Hero of Responsive Designs",
-    link: "https://medium.com/design-bootcamp/hug-content-or-fill-container-from-zero-to-hero-of-responsive-designs-be036e8a21ba",
-    img: "https://cdn-images-1.medium.com/max/800/1*Co2Vg-61aaE4fQVwZxcycA.gif",
-    date: "Aug 2022",
-    readMin: 5,
-    views: "20K",
-    reads: "9.7K",
+    title: "The Art and Science of User Research",
+    link: "https://medium.com/nyc-design/the-art-and-science-of-user-research-5a485e5675cb",
+    img: "https://cdn-images-1.medium.com/max/1024/1*7bI-n-o5ErZYQoQwjV4Dkw.jpeg",
+    date: "Apr 2024",
+    readMin: 7,
   },
   {
     title: "Starting with design system? Make sure you know these 10 points",
@@ -65,43 +63,13 @@ export const STORIES: Story[] = [
     reads: "1.5K",
   },
   {
-    title: "Brutalism to Neu-brutalism — What, Why and How?",
-    link: "https://medium.com/design-bootcamp/brutalism-to-neu-brutalism-what-why-and-how-456c6a7f081a",
-    img: "https://cdn-images-1.medium.com/max/498/1*5UIVqf7Uh5VgGSqGV7y3KA.gif",
-    date: "May 2022",
-    readMin: 4,
-    views: "610",
-    reads: "306",
-  },
-  {
-    title: "Protect yourself from arguments at workplace like a pro",
-    link: "https://medium.com/design-bootcamp/protect-yourself-from-arguments-at-workplace-like-a-pro-879e71fbf477",
-    img: "https://cdn-images-1.medium.com/max/1024/0*-cuaGTiC_O4yx0Cq",
-    date: "Apr 2023",
+    title: "Hug Content or Fill Container? From Zero to Hero of Responsive Designs",
+    link: "https://medium.com/design-bootcamp/hug-content-or-fill-container-from-zero-to-hero-of-responsive-designs-be036e8a21ba",
+    img: "https://cdn-images-1.medium.com/max/800/1*Co2Vg-61aaE4fQVwZxcycA.gif",
+    date: "Aug 2022",
     readMin: 5,
-    views: "432",
-    reads: "223",
-  },
-  {
-    title: "Creativity and Corporate | The Hidden Struggle",
-    link: "https://medium.com/design-bootcamp/creativity-and-corporate-the-hidden-struggle-b44b1eaa0026",
-    img: "https://cdn-images-1.medium.com/max/1024/0*jFlbXoh3BlMmg9zZ",
-    date: "Jun 2024",
-    readMin: 3,
-  },
-  {
-    title: "The Art and Science of User Research",
-    link: "https://medium.com/nyc-design/the-art-and-science-of-user-research-5a485e5675cb",
-    img: "https://cdn-images-1.medium.com/max/1024/1*7bI-n-o5ErZYQoQwjV4Dkw.jpeg",
-    date: "Apr 2024",
-    readMin: 7,
-  },
-  {
-    title: "BECOME THE TOP 1% DESIGNER",
-    link: "https://ecapsdesign.medium.com/why-you-suck-as-a-designer-and-how-i-can-change-your-life-bc821be6b533",
-    img: "https://cdn-images-1.medium.com/max/1024/1*sYp_8CTJq0LeiNMCjjT1yQ.jpeg",
-    date: "May 2023",
-    readMin: 6,
+    views: "20K",
+    reads: "9.7K",
   },
   {
     title: "The Paradox of Questionable UI in Popular Products",
@@ -109,6 +77,15 @@ export const STORIES: Story[] = [
     img: "https://cdn-images-1.medium.com/max/1024/0*x12fLJZwXtbiYUib",
     date: "Apr 2023",
     readMin: 4,
+  },
+  {
+    title: "Brutalism to Neu-brutalism — What, Why and How?",
+    link: "https://medium.com/design-bootcamp/brutalism-to-neu-brutalism-what-why-and-how-456c6a7f081a",
+    img: "https://cdn-images-1.medium.com/max/498/1*5UIVqf7Uh5VgGSqGV7y3KA.gif",
+    date: "May 2022",
+    readMin: 4,
+    views: "610",
+    reads: "306",
   },
 ];
 
@@ -148,5 +125,12 @@ export const EXPERIENCE: ExperienceEntry[] = [
     duration: "Feb 2022 — Jul 2022",
     location: "Pune, India",
     note: "Cross-border design support across India and South Korea — usability audits, design sprints, and developer handoff.",
+  },
+  {
+    company: "Independent Product Practice",
+    role: "Product & UX Designer",
+    duration: "2018 — 2022",
+    location: "Remote / India",
+    note: "Designed early MVP surfaces, UX audit frameworks, and web application interfaces for fintech and SaaS startups.",
   },
 ];

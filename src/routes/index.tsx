@@ -52,7 +52,7 @@ function Index() {
   return (
     <main className="min-h-dvh bg-transparent text-foreground font-serif">
       {/* Top bar */}
-      <header className="w-full md:w-[72%] mx-auto px-6 pt-8 flex items-center justify-between">
+      <header className="w-full md:w-[72%] max-w-6xl mx-auto px-6 pt-8 flex items-center justify-between">
         <span className="font-mono text-[12px] tracking-[0.15em] uppercase text-muted-foreground">
           Pradyumna Srivastava
         </span>
@@ -62,7 +62,7 @@ function Index() {
         </div>
       </header>
 
-      <article className="w-full md:w-[72%] mx-auto px-6 py-20 md:py-28 space-y-16 md:space-y-28">
+      <article className="w-full md:w-[72%] max-w-6xl mx-auto px-6 py-20 md:py-28 space-y-16 md:space-y-28">
         {/* Hero */}
         <AnimateIn as="section" animation="fade-up" duration={800}>
           <Parallax offset={25}>
@@ -70,7 +70,7 @@ function Index() {
               className="text-4xl md:text-[3.5rem] leading-[1.1] tracking-tighter font-medium text-balance"
               text="I'm a senior product designer working at the intersection of *finance,* *data* and *AI* — shaping interfaces used by millions and tied to hundreds of millions in business impact."
             />
-            <p className="mt-8 text-lg leading-relaxed text-muted-foreground font-sans">
+            <p className="mt-8 text-lg leading-relaxed text-muted-foreground font-sans max-w-[65ch]">
               Currently based in Pune, India. Open to senior IC and lead roles, remote or
               relocating.
             </p>
@@ -94,7 +94,7 @@ function Index() {
         {/* Résumé */}
         <AnimateIn as="section" animation="fade-up" delay={100}>
           <SectionRule label="Résumé" />
-          <div className="space-y-6 text-lg leading-relaxed">
+          <div className="space-y-6 text-lg leading-relaxed max-w-[68ch]">
             <p>
               Eight years designing decision tools, analytics surfaces and consumer-facing
               fintech products. Most recently leading product design on an AI-assisted portfolio
