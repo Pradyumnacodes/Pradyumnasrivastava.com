@@ -14,4 +14,5 @@ export default defineConfig({
     autoCodeSplitting: false,
     enableCodeSplitting: false,
   },
+  nitro: { preset: "vercel" },
 });
