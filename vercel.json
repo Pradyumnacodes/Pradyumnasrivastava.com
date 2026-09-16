@@ -1,0 +1,4 @@
+{
+  "name": "pradyumna-portfolio",
+  "installCommand": "npm install --legacy-peer-deps"
+}

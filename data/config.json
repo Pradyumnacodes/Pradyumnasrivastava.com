@@ -1,0 +1,20 @@
+{
+  "activeHomepage": "brutalist",
+  "cases": {
+    "mastercard": {
+      "locked": true
+    },
+    "finpy": {
+      "locked": false
+    },
+    "second-office": {
+      "locked": false
+    }
+  },
+  "content": {
+    "bio": "I'm a senior product designer working at the intersection of finance, data and AI — shaping interfaces used by millions and tied to hundreds of millions in business impact.",
+    "location": "Pune, India",
+    "openToWork": true,
+    "email": "pradyumna.s.edu@gmail.com"
+  }
+}
