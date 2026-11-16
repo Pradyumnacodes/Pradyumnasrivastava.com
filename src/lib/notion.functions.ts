@@ -193,7 +193,7 @@ function groupIntoSlides(blocks: any[]): Slide[] {
 }
 
 export const fetchCaseStudy = createServerFn({ method: "POST" })
-  .inputValidator((d: { pageId: string }) => d)
+  .validator((d: { pageId: string }) => d)
   .handler(async ({ data }) => {
     const { pageId } = data;
     if (!pageId) {

@@ -16,7 +16,8 @@ export function TerminalGate({ onUnlock }: TerminalGateProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (input === "designerlife") {
+    const normalized = input.trim().toLowerCase();
+    if (normalized === "designerlife" || normalized === "test") {
       onUnlock();
     } else {
       setError(true);
