@@ -19,11 +19,11 @@ export function CompanyLogo({ company }: { company: string }) {
   }
   if (company.includes("goGlocal")) {
     return (
-      <div className="w-8 h-8 rounded-full ring-1 ring-border ring-offset-2 ring-offset-background transition-all duration-500 group-hover:ring-foreground/40 overflow-hidden bg-[#003F48] flex items-center justify-center p-1">
+      <div className="w-8 h-8 flex items-center justify-center rounded-md bg-foreground/[0.04] dark:bg-foreground/[0.06] border border-border p-1">
         <img
-          src="/logos/goglocal.svg"
+          src="/logos/goglocal.png"
           alt="goGlocal"
-          className="w-full h-full object-contain transition-all duration-500"
+          className="w-full h-full object-contain opacity-60 group-hover:opacity-100 transition-all duration-500"
         />
       </div>
     );
