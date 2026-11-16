@@ -10,14 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkRouteImport } from './routes/work'
+import { Route as DirRouteImport } from './routes/dir'
 import { Route as CreativesRouteImport } from './routes/creatives'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DirSlugRouteImport } from './routes/dir.$slug'
 import { Route as CaseStudySlugRouteImport } from './routes/case-study.$slug'
 
 const WorkRoute = WorkRouteImport.update({
   id: '/work',
   path: '/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DirRoute = DirRouteImport.update({
+  id: '/dir',
+  path: '/dir',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreativesRoute = CreativesRouteImport.update({
@@ -35,6 +42,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DirSlugRoute = DirSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => DirRoute,
+} as any)
 const CaseStudySlugRoute = CaseStudySlugRouteImport.update({
   id: '/case-study/$slug',
   path: '/case-study/$slug',
@@ -45,36 +57,65 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/creatives': typeof CreativesRoute
+  '/dir': typeof DirRouteWithChildren
   '/work': typeof WorkRoute
   '/case-study/$slug': typeof CaseStudySlugRoute
+  '/dir/$slug': typeof DirSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/creatives': typeof CreativesRoute
+  '/dir': typeof DirRouteWithChildren
   '/work': typeof WorkRoute
   '/case-study/$slug': typeof CaseStudySlugRoute
+  '/dir/$slug': typeof DirSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/creatives': typeof CreativesRoute
+  '/dir': typeof DirRouteWithChildren
   '/work': typeof WorkRoute
   '/case-study/$slug': typeof CaseStudySlugRoute
+  '/dir/$slug': typeof DirSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/creatives' | '/work' | '/case-study/$slug'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/creatives'
+    | '/dir'
+    | '/work'
+    | '/case-study/$slug'
+    | '/dir/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/creatives' | '/work' | '/case-study/$slug'
-  id: '__root__' | '/' | '/admin' | '/creatives' | '/work' | '/case-study/$slug'
+  to:
+    | '/'
+    | '/admin'
+    | '/creatives'
+    | '/dir'
+    | '/work'
+    | '/case-study/$slug'
+    | '/dir/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/creatives'
+    | '/dir'
+    | '/work'
+    | '/case-study/$slug'
+    | '/dir/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   CreativesRoute: typeof CreativesRoute
+  DirRoute: typeof DirRouteWithChildren
   WorkRoute: typeof WorkRoute
   CaseStudySlugRoute: typeof CaseStudySlugRoute
 }
@@ -86,6 +127,13 @@ declare module '@tanstack/react-router' {
       path: '/work'
       fullPath: '/work'
       preLoaderRoute: typeof WorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dir': {
+      id: '/dir'
+      path: '/dir'
+      fullPath: '/dir'
+      preLoaderRoute: typeof DirRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/creatives': {
@@ -109,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dir/$slug': {
+      id: '/dir/$slug'
+      path: '/$slug'
+      fullPath: '/dir/$slug'
+      preLoaderRoute: typeof DirSlugRouteImport
+      parentRoute: typeof DirRoute
+    }
     '/case-study/$slug': {
       id: '/case-study/$slug'
       path: '/case-study/$slug'
@@ -119,10 +174,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DirRouteChildren {
+  DirSlugRoute: typeof DirSlugRoute
+}
+
+const DirRouteChildren: DirRouteChildren = {
+  DirSlugRoute: DirSlugRoute,
+}
+
+const DirRouteWithChildren = DirRoute._addFileChildren(DirRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   CreativesRoute: CreativesRoute,
+  DirRoute: DirRouteWithChildren,
   WorkRoute: WorkRoute,
   CaseStudySlugRoute: CaseStudySlugRoute,
 }

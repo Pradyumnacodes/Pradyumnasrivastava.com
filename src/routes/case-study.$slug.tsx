@@ -6,6 +6,7 @@ import { getCaseStudy, type CaseStudyConfig } from "@/lib/case-studies";
 import { fetchCaseStudy, type CasePayload } from "@/lib/notion.functions";
 import { unlockMastercard } from "@/lib/mastercard.functions";
 import { CaseStudyArticle } from "@/components/case-study/CaseStudyArticle";
+import { DiaCaseStudy } from "@/components/case-study/DiaCaseStudy";
 import { PasswordGate, isUnlocked, rememberUnlock } from "@/components/case-study/PasswordGate";
 
 export const Route = createFileRoute("/case-study/$slug")({
@@ -69,8 +70,31 @@ function CaseStudyPage() {
 function ProtectedDeck({ study, slug }: { study: CaseStudyConfig; slug: string }) {
   const unlock = useServerFn(unlockMastercard);
   const [payload, setPayload] = useState<CasePayload | null>(null);
+  const [viewMode, setViewMode] = useState<"dia" | "horizontal">("dia");
+
+  useEffect(() => {
+    if (isUnlocked(slug)) {
+      try {
+        const cached = sessionStorage.getItem(`case_payload_${slug}`);
+        if (cached) {
+          setPayload(JSON.parse(cached));
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }, [slug]);
 
   if (payload) {
+    if (viewMode === "dia") {
+      return (
+        <DiaCaseStudy
+          study={study}
+          payload={payload}
+          onSwitchToHorizontal={() => setViewMode("horizontal")}
+        />
+      );
+    }
     return <CaseStudyArticle study={study} payload={payload} />;
   }
 
@@ -80,6 +104,11 @@ function ProtectedDeck({ study, slug }: { study: CaseStudyConfig; slug: string }
       onSubmit={async (password) => {
         const data = await unlock({ data: { password } });
         rememberUnlock(slug);
+        try {
+          sessionStorage.setItem(`case_payload_${slug}`, JSON.stringify(data));
+        } catch {
+          // ignore
+        }
         setPayload(data);
       }}
     />

@@ -46,16 +46,16 @@ const CASES: WorkCase[] = [
   },
   {
     slug: "mastercard",
-    eyebrow: "A global card network · B2B Analytics",
-    years: "Aug 2024 — Present",
+    eyebrow: "Global Card Network · B2B Enterprise SaaS",
+    years: "2024 · 8 Months",
     title:
-      "Enabling FIs to uncover 28% more growth opportunities with AI-assisted portfolio intelligence.",
+      "Enabling FIs to uncover 28% more growth opportunities.",
     summary:
-      "Led interaction design across cross-border travel, spend optimisation, EMOB monitoring, and SME portfolio tools — converging four siloed products into one AI-assisted launchpad bankers actually use.",
+      "Turned a manual 3-week consulting practice into a self-serve AI campaign engine for mid-market banks and card issuers — enabling +28% more opportunities and −85% launch times.",
     bullets: [
-      "Unified IA across four analytics products previously shipped on separate stacks.",
-      "Modelled to lift identified growth opportunities by 28% and end-user revenue by 14.2%.",
-      "Drove cross-sell pathways between products without adding cognitive load.",
+      "+28% more growth opportunities uncovered vs manual SQL/BI queries.",
+      "−85% campaign launch time, collapsed from 3 weeks to under 5 minutes.",
+      "0% pilot opt-out rate across a 6-month enterprise trial.",
     ],
   },
   {

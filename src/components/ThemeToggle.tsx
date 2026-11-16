@@ -19,7 +19,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       onClick={toggle}
       aria-label={mounted && isDark ? "Switch to light mode" : "Switch to dark mode"}
       className={
-        "inline-flex items-center justify-center w-9 h-9 rounded-full ring-1 ring-deep-ink/15 text-deep-ink/70 hover:text-deep-ink hover:bg-deep-ink/5 transition-colors " +
+        "inline-flex items-center justify-center w-9 h-9 rounded-full ring-1 ring-border text-muted-foreground hover:text-foreground hover:bg-foreground/[0.05] transition-all " +
         className
       }
     >

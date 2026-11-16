@@ -45,14 +45,14 @@ export function AccessibilityPanel() {
         type="button"
         aria-label="Open accessibility settings"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 lg:bottom-12 lg:right-12 z-50 flex items-center gap-2 rounded-full bg-background text-foreground border border-foreground/10 px-4 py-2.5 text-sm font-medium tracking-tight shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+        className="fixed bottom-5 right-5 lg:bottom-6 lg:right-8 z-40 flex items-center gap-2 rounded-full bg-background text-foreground border border-border px-3.5 py-2 text-xs font-medium tracking-tight shadow-[0_4px_20px_rgba(0,0,0,0.06)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
       >
         <Accessibility className="h-4 w-4" aria-hidden="true" />
         <span>Accessibility</span>
       </button>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="right" className="w-full overflow-y-auto sm:max-w-md bg-background text-foreground border-l border-foreground/10">
+        <SheetContent side="right" className="w-full overflow-y-auto sm:max-w-md bg-background text-foreground border-l border-border">
           <SheetHeader>
             <div className="flex items-start justify-between gap-2">
               <div>

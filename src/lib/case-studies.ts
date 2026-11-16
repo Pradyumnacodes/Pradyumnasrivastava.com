@@ -585,29 +585,29 @@ export const CASE_STUDIES: Record<string, CaseStudyConfig> = {
   mastercard: {
     slug: "mastercard",
     title: "Enabling FIs to uncover 28% more growth opportunities",
-    eyebrow: "Enterprise Fintech · AI Launchpad Design",
-    client: "Mastercard",
-    role: "Senior Product Designer",
+    eyebrow: "Global Card Network · AI Portfolio Engine",
+    client: "Global Card Network",
+    role: "Lead Product Designer",
     year: "2024",
     summary:
-      "An AI-assisted launchpad converging four siloed analytics products into a unified decision surface for financial institutions.",
+      "Turning an internal consulting practice into an AI portfolio engine — enabling financial institutions to uncover +28% more growth opportunities and collapse campaign launch time from ~3 weeks to under 5 minutes.",
     notionPageId: "mastercard",
     serverProtected: true,
     accent: "#F59E0B",
     highlights: {
       problem:
-        "Financial institutions struggled to extract cross-portfolio insights due to 4 fragmented analytics tools.",
+        "Mid-market banks struggled with a 3-week manual consulting loop and 4 siloed analytics systems, causing millions in invisible revenue leaks.",
       solution:
-        "Unified AI-assisted launchpad consolidating data streams into real-time opportunity cards.",
+        "Engineered an automated AI portfolio triage engine with explainable probability tiers, progressive proof, and 1-click campaign deployment.",
       metrics: [
-        { value: "+28%", label: "More Uncovered Growth Opportunities" },
-        { value: "4 → 1", label: "Siloed Analytics Tools Consolidated" },
-        { value: "-55%", label: "Faster Decision Analysis Time" },
+        { value: "+28%", label: "More Growth Opportunities Uncovered" },
+        { value: "−85%", label: "Campaign Launch Time (3w → 5m)" },
+        { value: "0%", label: "Pilot Opt-Out Rate Across 6 Months" },
       ],
       keyTakeaways: [
-        "Unifying fragmented data surfaces unlocked high-margin opportunity discovery for FI analysts.",
-        "AI-assisted recommendations reduced manual cross-referencing from hours to seconds.",
-        "Role-tailored dashboards enabled executive and analyst alignment on high-priority portfolio actions.",
+        "Universal Abstraction Layer taught four incompatible ML models to speak a single visual and behavioral language.",
+        "Calibrated probabilistic UX copy and explainable logic drawers earned mandatory bank risk and compliance trust.",
+        "Role-tailored workspaces united executive leadership, portfolio marketers, data analysts, and relationship managers into one flow.",
       ],
     },
   },

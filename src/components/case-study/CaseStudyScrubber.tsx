@@ -5,7 +5,7 @@ import { CasePayload } from "@/lib/notion.functions";
 interface CaseStudyScrubberProps {
   study: CaseStudyConfig;
   payload: CasePayload;
-  scrollContainerRef: React.RefObject<HTMLDivElement>;
+  scrollContainerRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export function CaseStudyScrubber({ study, payload, scrollContainerRef }: CaseStudyScrubberProps) {

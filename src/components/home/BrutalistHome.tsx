@@ -11,6 +11,11 @@ export function BrutalistHome() {
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
+    // Enforce dark mode on homepage
+    document.documentElement.classList.add("dark");
+  }, []);
+
+  useEffect(() => {
     // Disable parallax on mobile/touch
     if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
 
@@ -39,7 +44,7 @@ export function BrutalistHome() {
   }, []);
 
   return (
-    <div className="relative min-h-dvh w-full overflow-x-hidden bg-background text-foreground font-sans selection:bg-foreground/20">
+    <div className="dark relative min-h-dvh w-full overflow-x-hidden bg-[#09090B] text-[#F4F4F2] font-sans selection:bg-foreground/20">
       <main id="top" className="relative w-full min-h-dvh flex flex-col">
       
       {/* Ambient background blur that fills the entire screen on hover */}
@@ -55,12 +60,12 @@ export function BrutalistHome() {
                hoveredSlug === c.slug ? "opacity-100" : "opacity-0"
              }`}
            >
-             <div className="absolute inset-0 bg-background/80 z-10" />
+             <div className="absolute inset-0 bg-background/85 dark:bg-background/80 z-10 backdrop-blur-[2px]" />
              <img 
                src={c.image} 
                alt="" 
-               className={`w-full h-full object-cover opacity-40 grayscale mix-blend-luminosity transition-transform ease-out ${
-                 hoveredSlug === c.slug ? "scale-[1.15] duration-[15000ms]" : "scale-100 duration-1000"
+               className={`w-full h-full object-cover opacity-25 dark:opacity-35 grayscale contrast-125 transition-transform ease-out ${
+                 hoveredSlug === c.slug ? "scale-[1.12] duration-[15000ms]" : "scale-100 duration-1000"
                }`} 
              />
            </div>
@@ -71,8 +76,8 @@ export function BrutalistHome() {
 
       <article className="relative z-10 w-full flex-1 flex flex-col justify-center lg:block px-6 py-12 lg:p-0 lg:absolute lg:inset-y-12 lg:inset-x-0">
         
-        {/* Left Column (Name & Bio) - 35% Width, Perfect Rectangle */}
-        <div className="lg:absolute lg:left-0 lg:w-[35%] lg:h-full lg:pl-12 lg:pr-4 flex flex-col justify-between z-20 pointer-events-auto mix-blend-difference mb-12 lg:mb-0">
+        {/* Left Column (Name & Bio) - 35% Width */}
+        <div className="lg:absolute lg:left-0 lg:w-[35%] lg:h-full lg:pl-12 lg:pr-4 flex flex-col justify-between z-20 pointer-events-auto mb-12 lg:mb-0">
           
           {/* Top: Name */}
           <div>
@@ -127,7 +132,7 @@ export function BrutalistHome() {
               </a>
             </div>
 
-            {/* Elite Horizontal Expansion Timeline - Hidden on mobile/zoom completely to save space */}
+            {/* Horizontal Expansion Timeline */}
             <div className="hidden lg:flex items-center gap-4 text-left border-t border-border pt-6 mt-2 group/timeline">
               {EXPERIENCE.map((job, idx) => (
                 <div 
@@ -157,10 +162,10 @@ export function BrutalistHome() {
           </div>
         </div>
 
-        {/* Right Column (Case Studies) - 60% Width, Perfect Rectangle */}
+        {/* Right Column (Case Studies) - 60% Width */}
         <div className="lg:absolute lg:right-0 lg:w-[60%] lg:h-full lg:pl-4 lg:pr-12 xl:pr-24 flex flex-col pointer-events-none z-10 lg:justify-between gap-6 lg:gap-0 mt-8 lg:mt-0">
            
-           <nav className="flex flex-col justify-center lg:justify-between h-full w-full items-start lg:items-end text-left lg:text-right pointer-events-auto group/list gap-6 lg:gap-0">
+           <nav className="flex flex-col justify-center lg:justify-between h-full w-full items-start lg:items-end text-left lg:text-right pointer-events-auto group/list gap-6 lg:gap-0 lg:pb-16 xl:pb-20">
              {CASES.map((c, i) => (
                 <Link 
                   key={c.slug} 
@@ -168,15 +173,15 @@ export function BrutalistHome() {
                   params={{ slug: c.slug }}
                   onMouseEnter={() => setHoveredSlug(c.slug)}
                   onMouseLeave={() => setHoveredSlug(null)}
-                  className="animate-entrance-nav group/item flex flex-col items-start lg:items-end lg:gap-2 cursor-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] opacity-100 lg:group-hover/list:opacity-20 hover:!opacity-100"
+                  className="animate-entrance-nav group/item flex flex-col items-start lg:items-end lg:gap-2 cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] opacity-100 lg:group-hover/list:opacity-20 hover:!opacity-100"
                   style={{ animationDelay: `${i * 150}ms` }}
                 >
-                  <span className="text-[clamp(3.5rem,7vw,10rem)] tracking-[-0.01em] font-semibold text-muted-foreground/40 group-hover/item:text-foreground transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] leading-[0.9] whitespace-nowrap pb-2">
+                  <span className="text-[clamp(3.5rem,7vw,10rem)] tracking-[-0.035em] font-medium text-ghost group-hover/item:text-foreground transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] leading-[0.9] whitespace-nowrap pb-2">
                     {c.slug === "mastercard" ? "Issuer Portfolio" : c.slug === "finpy" ? "Repayments Boost" : "Effortless Hiring"}
                   </span>
                   
-                  {/* Descriptions hide on extreme mobile/zoom to keep it un-cluttered */}
-                  <p className="hidden md:block mt-1 lg:mt-4 tracking-[-0.02em] text-muted-foreground font-medium max-w-[400px] opacity-100 lg:opacity-0 group-hover/item:opacity-100 transition-opacity duration-700 lg:transform lg:translate-y-2 group-hover/item:translate-y-0 leading-relaxed text-left lg:text-right text-[clamp(0.875rem,1vw,1rem)]">
+                  {/* Descriptions */}
+                  <p className="hidden md:block mt-1 lg:mt-4 tracking-[-0.02em] text-muted-foreground font-normal max-w-[420px] opacity-100 lg:opacity-0 group-hover/item:opacity-100 transition-all duration-700 lg:transform lg:translate-y-2 group-hover/item:translate-y-0 leading-relaxed text-left lg:text-right text-[clamp(0.875rem,1vw,1rem)]">
                     {c.title}
                   </p>
                 </Link>

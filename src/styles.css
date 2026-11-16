@@ -38,57 +38,79 @@
   --color-brand-green: var(--brand-green);
   --color-surface-2: var(--surface-2);
 
+  --color-ghost: var(--ghost);
+  --color-ghost-hover: var(--ghost-hover);
+
   --font-serif: "Newsreader", ui-serif, Georgia, serif;
   --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 :root {
+  color-scheme: light;
   --radius: 1rem;
 
-  /* Premium Light Mode */
-  --background: #FAFAFA;
-  --foreground: #080808;
-  --card: #ffffff;
-  --card-foreground: #080808;
-  --popover: #ffffff;
-  --popover-foreground: #080808;
-  --primary: #080808;
-  --primary-foreground: #FAFAFA;
-  --secondary: #f4f4f5;
-  --secondary-foreground: #080808;
-  --muted: #f4f4f5;
-  --muted-foreground: #666666;
-  --accent: #f4f4f5;
-  --accent-foreground: #080808;
-  --destructive: #ef4444;
-  --destructive-foreground: #FAFAFA;
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #080808;
+  /* High-Taste Light Mode: Warm Museum Alabaster & Sumi Carbon Ink */
+  --background: #FBFBFA;
+  --foreground: #121212;
+  --paper: #FBFBFA;
+  --surface: #FFFFFF;
+  --surface-2: #F2F2EE;
+  --ink: #121212;
+  --deep-ink: #0A0A0A;
+  --card: #FFFFFF;
+  --card-foreground: #121212;
+  --popover: #FFFFFF;
+  --popover-foreground: #121212;
+  --primary: #121212;
+  --primary-foreground: #FBFBFA;
+  --secondary: #F2F2EE;
+  --secondary-foreground: #121212;
+  --muted: #F2F2EE;
+  --muted-foreground: #6B6B66;
+  --accent: #EFEFEA;
+  --accent-foreground: #121212;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #E6E6E1;
+  --input: #E6E6E1;
+  --ring: #121212;
+  --brand-green: #10B981;
+  --ghost: rgba(18, 18, 18, 0.16);
+  --ghost-hover: #121212;
 }
 
 .dark {
-  /* Premium Brutalist Dark Mode */
-  --background: #080808;
-  --foreground: #FAFAFA;
-  --card: #0a0a0a;
-  --card-foreground: #FAFAFA;
-  --popover: #0a0a0a;
-  --popover-foreground: #FAFAFA;
-  --primary: #FAFAFA;
-  --primary-foreground: #080808;
-  --secondary: #141414;
-  --secondary-foreground: #FAFAFA;
-  --muted: #141414;
-  --muted-foreground: #888888;
-  --accent: #141414;
-  --accent-foreground: #FAFAFA;
-  --destructive: #ef4444;
-  --destructive-foreground: #080808;
-  --border: #222222;
-  --input: #222222;
-  --ring: #FAFAFA;
+  color-scheme: dark;
+
+  /* High-Taste Dark Mode: Velvet Obsidian & Luminous Bone */
+  --background: #09090B;
+  --foreground: #F4F4F2;
+  --paper: #09090B;
+  --surface: #121215;
+  --surface-2: #18181D;
+  --ink: #F4F4F2;
+  --deep-ink: #FFFFFF;
+  --card: #121215;
+  --card-foreground: #F4F4F2;
+  --popover: #141418;
+  --popover-foreground: #F4F4F2;
+  --primary: #F4F4F2;
+  --primary-foreground: #09090B;
+  --secondary: #18181D;
+  --secondary-foreground: #F4F4F2;
+  --muted: #18181D;
+  --muted-foreground: #8E8E96;
+  --accent: #1D1D24;
+  --accent-foreground: #F4F4F2;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #F4F4F2;
+  --brand-green: #10B981;
+  --ghost: rgba(244, 244, 242, 0.18);
+  --ghost-hover: #F4F4F2;
 }
 
 /* Accessibility Hooks */
@@ -109,16 +131,35 @@ html[data-a11y-big-cursor="true"], html[data-a11y-big-cursor="true"] * { cursor:
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    min-height: 100dvh;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   ::selection {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: var(--color-ink);
+    background-color: color-mix(in oklab, var(--foreground) 15%, transparent);
+    color: var(--foreground);
+  }
+
+  /* Refined Architectural Scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--foreground) 16%, transparent);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--foreground) 30%, transparent);
   }
 }
 
