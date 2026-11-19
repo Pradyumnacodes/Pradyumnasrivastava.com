@@ -9,27 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WorkRouteImport } from './routes/work'
-import { Route as DirRouteImport } from './routes/dir'
-import { Route as CreativesRouteImport } from './routes/creatives'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DirSlugRouteImport } from './routes/dir.$slug'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as CreativesRouteImport } from './routes/creatives'
+import { Route as DirRouteImport } from './routes/dir'
+import { Route as WorkRouteImport } from './routes/work'
 import { Route as CaseStudySlugRouteImport } from './routes/case-study.$slug'
+import { Route as DirSlugRouteImport } from './routes/dir.$slug'
 
-const WorkRoute = WorkRouteImport.update({
-  id: '/work',
-  path: '/work',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DirRoute = DirRouteImport.update({
-  id: '/dir',
-  path: '/dir',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CreativesRoute = CreativesRouteImport.update({
-  id: '/creatives',
-  path: '/creatives',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -37,20 +27,30 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CreativesRoute = CreativesRouteImport.update({
+  id: '/creatives',
+  path: '/creatives',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DirRoute = DirRouteImport.update({
+  id: '/dir',
+  path: '/dir',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkRoute = WorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaseStudySlugRoute = CaseStudySlugRouteImport.update({
+  id: '/case-study/$slug',
+  path: '/case-study/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DirSlugRoute = DirSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => DirRoute,
-} as any)
-const CaseStudySlugRoute = CaseStudySlugRouteImport.update({
-  id: '/case-study/$slug',
-  path: '/case-study/$slug',
-  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -122,25 +122,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/work': {
-      id: '/work'
-      path: '/work'
-      fullPath: '/work'
-      preLoaderRoute: typeof WorkRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dir': {
-      id: '/dir'
-      path: '/dir'
-      fullPath: '/dir'
-      preLoaderRoute: typeof DirRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/creatives': {
-      id: '/creatives'
-      path: '/creatives'
-      fullPath: '/creatives'
-      preLoaderRoute: typeof CreativesRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -150,11 +136,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/creatives': {
+      id: '/creatives'
+      path: '/creatives'
+      fullPath: '/creatives'
+      preLoaderRoute: typeof CreativesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dir': {
+      id: '/dir'
+      path: '/dir'
+      fullPath: '/dir'
+      preLoaderRoute: typeof DirRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work': {
+      id: '/work'
+      path: '/work'
+      fullPath: '/work'
+      preLoaderRoute: typeof WorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/case-study/$slug': {
+      id: '/case-study/$slug'
+      path: '/case-study/$slug'
+      fullPath: '/case-study/$slug'
+      preLoaderRoute: typeof CaseStudySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dir/$slug': {
@@ -163,13 +170,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/dir/$slug'
       preLoaderRoute: typeof DirSlugRouteImport
       parentRoute: typeof DirRoute
-    }
-    '/case-study/$slug': {
-      id: '/case-study/$slug'
-      path: '/case-study/$slug'
-      fullPath: '/case-study/$slug'
-      preLoaderRoute: typeof CaseStudySlugRouteImport
-      parentRoute: typeof rootRouteImport
     }
   }
 }
