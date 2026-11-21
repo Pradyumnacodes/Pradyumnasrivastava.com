@@ -1,6 +1,6 @@
 import type { CasePayload } from "./notion.functions";
-import { FINPY_PAYLOAD } from "./case-studies.finpy.server";
-import { SECOND_OFFICE_PAYLOAD } from "./case-studies.second-office.server";
+import { FINPY_PAYLOAD } from "./case-studies.finpy.data";
+import { SECOND_OFFICE_PAYLOAD } from "./case-studies.second-office.data";
 
 export interface ImpactMetric {
   value: string;

@@ -30,8 +30,8 @@ export const Route = createFileRoute("/case-study/$slug")({
       <div className="text-center">
         <p className="font-mono text-xs text-muted-foreground mb-3">404</p>
         <h1 className="text-3xl mb-6">No case study at that link.</h1>
-        <Link to="/work" className="underline underline-offset-4 text-foreground">
-          ← Back to work
+        <Link to="/" className="underline underline-offset-4 text-foreground">
+          ← Back home
         </Link>
       </div>
     </div>
@@ -41,7 +41,9 @@ export const Route = createFileRoute("/case-study/$slug")({
       <div className="text-center max-w-md">
         <p className="font-mono text-xs text-muted-foreground mb-3">Something broke</p>
         <h1 className="text-2xl mb-4">Couldn't load this case study.</h1>
-        <p className="text-sm text-foreground mb-6">{error.message}</p>
+        <p className="text-sm text-foreground mb-6">
+          {(error as any)?.message || "An unexpected error occurred."}
+        </p>
         <button
           onClick={reset}
           className="bg-foreground text-background rounded-full px-5 py-2 text-sm font-semibold"
@@ -210,8 +212,8 @@ function MissingNotion({ study }: { study: CaseStudyConfig }) {
           </code>{" "}
           and it'll render here automatically.
         </div>
-        <Link to="/work" className="inline-block mt-6 underline underline-offset-4 text-foreground">
-          ← Back to work
+        <Link to="/" className="inline-block mt-6 underline underline-offset-4 text-foreground">
+          ← Back home
         </Link>
       </div>
     </div>

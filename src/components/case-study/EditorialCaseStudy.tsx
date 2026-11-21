@@ -411,14 +411,14 @@ export function EditorialShell({
         >
           {/* Back link */}
           <Link
-            to="/work"
+            to="/"
             className="group inline-flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.08em] transition-colors"
             style={{ color: tokens.mutedInk }}
             onMouseEnter={(e) => (e.currentTarget.style.color = tokens.ink)}
             onMouseLeave={(e) => (e.currentTarget.style.color = tokens.mutedInk)}
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-            Work
+            Home
           </Link>
 
           {/* Right nav */}
@@ -488,12 +488,12 @@ export function EditorialShell({
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-[12px] font-medium uppercase tracking-[0.08em]">
             <div className="flex flex-wrap gap-6">
               {[
-                { label: "Back to Work", href: "/work" },
+                { label: "Home", href: "/" },
                 ...footerLinks,
               ].map((l) => (
                 <Link
                   key={l.label}
-                  to={l.href as "/work"}
+                  to={l.href as "/"}
                   className="transition-colors"
                   style={{ color: tokens.footerMuted }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = tokens.footerText)}

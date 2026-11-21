@@ -95,9 +95,6 @@ function CreativesPage() {
             <Link to="/" className="hover:opacity-100 transition-opacity">
               Home
             </Link>
-            <Link to="/work" className="hover:opacity-100 transition-opacity">
-              Work
-            </Link>
             <Link
               to="/creatives"
               className="hover:opacity-100 transition-opacity"
@@ -156,14 +153,8 @@ function CreativesPage() {
       </section>
 
       <AuroraFooter>
-        <Link
-          to="/work"
-          className="font-serif italic text-xl underline underline-offset-8 text-paper"
-        >
-          ← Selected work
-        </Link>
         <Link to="/" className="font-serif italic text-xl underline underline-offset-8 text-paper">
-          Back home →
+          ← Back home
         </Link>
       </AuroraFooter>
     </div>
