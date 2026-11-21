@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { NavHeader } from "@/components/NavHeader";
 import { CASES, RESUME_URL, EMAIL, EXPERIENCE } from "@/data/portfolio-data";
@@ -7,65 +7,33 @@ import { CompanyLogo } from "@/components/CompanyLogo";
 
 export function BrutalistHome() {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     // Enforce dark mode on homepage
     document.documentElement.classList.add("dark");
   }, []);
 
-  useEffect(() => {
-    // Disable parallax on mobile/touch
-    if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
-
-    const onMouseMove = (e: MouseEvent) => {
-      if (!bgRef.current) return;
-      
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
-      
-      rafRef.current = requestAnimationFrame(() => {
-        if (!bgRef.current) return;
-        // Calculate offset from center (-0.5 to 0.5)
-        const x = (e.clientX / window.innerWidth) - 0.5;
-        const y = (e.clientY / window.innerHeight) - 0.5;
-        // Pan background slightly opposite to cursor, maintaining scale for bleed
-        bgRef.current.style.transform = `translate3d(${x * -60}px, ${y * -60}px, 0) scale(1.15)`;
-      });
-    };
-    
-    window.addEventListener("mousemove", onMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
   return (
     <div className="dark relative min-h-dvh w-full overflow-x-hidden bg-[#09090B] text-[#F4F4F2] font-sans selection:bg-foreground/20">
       <main id="top" className="relative w-full min-h-dvh flex flex-col">
       
-      {/* Ambient background blur that fills the entire screen on hover */}
+      {/* Ambient background that cross-fades smoothly on hover */}
       <div 
-        ref={bgRef}
-        className="fixed inset-0 z-0 pointer-events-none bg-background transition-transform duration-75 ease-out will-change-transform"
-        style={{ transform: 'scale(1.15)' }}
+        className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#09090B]"
       >
         {CASES.map((c) => (
            <div 
              key={c.slug}
-             className={`absolute inset-0 transition-opacity duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+             className={`absolute inset-0 transition-opacity duration-700 ease-out ${
                hoveredSlug === c.slug ? "opacity-100" : "opacity-0"
              }`}
            >
-             <div className="absolute inset-0 bg-background/85 dark:bg-background/80 z-10 backdrop-blur-[2px]" />
+             <div className="absolute inset-0 bg-[#09090B]/80 z-10 backdrop-blur-[4px]" />
              <img 
                src={c.image} 
                alt="" 
-               className={`w-full h-full object-cover opacity-25 dark:opacity-35 grayscale contrast-125 transition-transform ease-out ${
-                 hoveredSlug === c.slug ? "scale-[1.12] duration-[15000ms]" : "scale-100 duration-1000"
+               className={`w-full h-full object-cover opacity-25 grayscale contrast-125 transition-transform duration-1000 ease-out ${
+                 hoveredSlug === c.slug ? "scale-105" : "scale-100"
                }`} 
              />
            </div>
