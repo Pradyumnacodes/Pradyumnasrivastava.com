@@ -66,7 +66,7 @@ function CaseStudyPage() {
   if (study.serverProtected) {
     return <ProtectedDeck study={study} slug={slug} />;
   }
-  return <LoadedDeck study={study} />;
+  return <DiaCaseStudy study={study} />;
 }
 
 function ProtectedDeck({ study, slug }: { study: CaseStudyConfig; slug: string }) {

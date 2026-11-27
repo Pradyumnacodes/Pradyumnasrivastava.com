@@ -9,6 +9,8 @@ import type { CaseStudyConfig } from "@/lib/case-studies";
 import type { CasePayload } from "@/lib/notion.functions";
 import { ImageLightbox } from "./ImageLightbox";
 import { PaperView } from "./PaperView";
+import { FinpyPaperView } from "./FinpyPaperView";
+import { SecondOfficePaperView } from "./SecondOfficePaperView";
 import { EditorialShell } from "./EditorialCaseStudy";
 
 interface DiaCaseStudyProps {
@@ -31,7 +33,13 @@ export function DiaCaseStudy({ study }: DiaCaseStudyProps) {
       footerCTA={{ label: "pradyumna.s.edu@gmail.com", href: "mailto:pradyumna.s.edu@gmail.com" }}
       contactEmail="pradyumna.s.edu@gmail.com"
     >
-      <PaperView onZoomImage={handleZoom} />
+      {study.slug === "finpy" ? (
+        <FinpyPaperView onZoomImage={handleZoom} />
+      ) : study.slug === "second-office" ? (
+        <SecondOfficePaperView onZoomImage={handleZoom} />
+      ) : (
+        <PaperView onZoomImage={handleZoom} />
+      )}
 
       {/* Lightbox */}
       {activeImage && (
